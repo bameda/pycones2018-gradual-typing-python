@@ -1,0 +1,835 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <title>Gradual typing in Python</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+
+    <!-- custom css theme -->
+    <!-- <link rel="stylesheet" href="css/theme/black.css"> -->
+    <link rel="stylesheet" href="css/theme/phidays.css" id="theme">
+
+    <!-- Theme used for syntax highlighting of code -->
+      <!-- <link rel="stylesheet" href="lib/css/atom-one-dark.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/atom-one-light.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/codepen-embed.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/github.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/googlecode.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/ir-black.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/monokai-sublime.css" id="highlight-theme"> -->
+      <!-- <link rel="stylesheet" href="lib/css/qtcreator_dark.css" id="highlight-theme"> -->
+      <link rel="stylesheet" href="lib/css/vs.css" id="highlight-theme">
+      <!-- <link rel="stylesheet" href="lib/css/zenburn.css" id="highlight-theme"> -->
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+
+    <!-- Create hidden header/footer <div> -->
+    <div id="hidden" style="display:none;">
+      <div id="header">
+        <div id="header-left">
+          <img src='img/cmmon/bubbles.png' alt="" />
+        </div>
+        <div id="header-right">
+          <img src='img/cmmon/logo-phydays-text.png' alt="" />
+        </div>
+        <div id="footer-center">
+          <div class="line left"></div>
+          <img src='img/cmmon/micro.png' alt="" />
+          <div class="line right"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-background="img/cmmon/background-cover.png">
+          <div class="cover">
+            <img class="logo plain" src="img/cmmon/logo-phidays.png" />
+            <div class="content">
+              <h1>He venido a hablar de mis tipos...</h1>
+              <h3>Gradual Typing en Python</h3>
+            </div>
+          </div>
+        </section>
+
+        <section data-background-color="#3452d4"
+                 data-background-image="img/slides/whoiam/david.jpg"
+                 data-background-position="right"
+                 data-background-size="auto 100%"
+                 class="whoiam">
+          <h1>Hola!</h1>
+          <h3>David Barragán<br />Merino</h3>
+          <!--
+          <p>
+            <a href="http://kaleidos.net/FFF8E7/">#FFF8E7</a>&nbsp;en&nbsp;
+            <img src="img/slides/whoiam/kaleidos.svg" class="plain"
+                 style="height: 4rem; vertical-align: middle;" alt="" />&nbsp;Kaleidos.net
+            <br />
+            <a href="https://tree.taiga.io/humans.txt">Pitufo Gruñon</a>&nbsp;en&nbsp;
+            <img src="img/slides/whoiam/taiga-color.png" class="plain"
+                 style="height: 4rem; vertical-align: middle;" alt="" />&nbsp;Taiga.io
+          </p>
+          <br />
+          -->
+          <p>
+            <img src="img/slides/whoiam/kaleidos.svg" class="plain"
+                 style="height: 4rem; vertical-align: middle;" alt="" />&nbsp;Kaleidos.net
+            <br />
+            <img src="img/slides/whoiam/taiga-color.png" class="plain"
+                 style="height: 4rem; vertical-align: middle;" alt="" />&nbsp;Taiga.io
+          </p>
+          <p>
+            <a href="https://github.com/bameda">bameda</a> en GitHub
+            <br />
+            <a href="https://twitter.com/bameda">@bameda</a> en Twitter
+          </p>
+          <!--
+          <p><small>
+            Slides: <a href="https://bameda.github.io/python-functional-101-t3chfest2018/index.html">https://bameda.github.io/python-functional-101-t3chfest2018/index.html</a><br />
+            Repo: <a href="https://github.com/bameda/python-functional-101-t3chfest2018">https://github.com/bameda/python-functional-101-t3chfest2018</a>
+          </small></p>
+          -->
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            #### Typing
+
+            Indicaer el tipo de las "cosas".
+
+            <br />
+
+            #### Type cheker
+
+            Programa encargado de comprobar y aplicar las restricciones de tipos en un código fuente dado.
+
+            - Puede actuar en la fase de compilado &rarr; _static type cheker_.
+            - Pude actuar en runtime &rarr; _dynamic type cheker_.
+          </textarea>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Static typing
+              <img src="img/slides/static-dynamic/static_typing.png" class="plain"
+                   style="height: 28rem; float: right; margin-left: 2rem;" alt="" />
+              <br />
+              Las variables poseen un tipo asociado, normalmente explicito aunque a veces inplicito (inferido).
+
+              La comprobación de tipos se realiza en tiempo de compilación para poder garantizarlo.
+
+              <br />
+              - Ejemplos: Java, Haskell, Julia, Rust, C...
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              #### 👍
+
+              - Detección temprana de errores de tipo.
+              - Ahorro de comprobaciones manuales de tipo.
+              - Ahorro de tests.
+              - El código está mejor documentado.
+              - El compilador puede realizar optimizaciones de código.
+
+              <br />
+              #### 👎
+
+              - Incremento de tiempo en el proceso editar-compilar-ejecutar-depurar.
+              - No realizan todas las verificaciones de tipos (downcasting).
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Dynamic typing
+
+              <img src="img/slides/static-dynamic/dynamic_typing.png" class="plain"
+                   style="height: 28rem; float: right; margin-left: 2rem;" alt="" />
+              <br />
+              Las variables no poseen un tipo asociado, si no que lo obtienen del valor que contienen en cada momento.
+
+              La comprobación de tipos se realiza en tiempo de ejecución.
+
+              <br />
+              - Ejemplos: Python, Perl, Ruby, ¿Lisp?, Javascript...
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              #### 👍
+
+              - Facilita el proceso de codificación.
+              - Menor tiempo en el proceso editar-compilar-ejecutar-depurar.
+              - Flexibilidad para adaptarse a los cambios de requisitos.
+              - Facilita la gestión de situaciones en la que el típo sólo se conoce en tiempo de ejecución.
+              - Ideal para programación interactiva.
+
+              <br />
+              #### 👎
+
+              - Hay errores de tipo que no se detectan hasta su ejecución.
+              - Hay que documentar más.
+              - Hay que añadir comprobaciones manuales de tipos.
+              - Hay que testear más.
+              - En proyectos grandes resulta dificil entender el código.
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              #### ¿Qué hace este código?
+
+              <br />
+              ```python
+              def validate_entries(entries):
+                  for entry in entries:
+                      entry.data.validate()
+              ```
+              <br />
+
+              - `grep validate` y a buscar su definición &rarr; 154 definiciones
+                - debemos averiguar el típo del objeto de `validate()`
+                  - debemos averiguar el tipo de `entry.data`
+                    - para ello debemos saber qué es `entry`
+                      - pero ¿qué es `entries`? ¿sera un...
+                        - ..._parámetro_? &rarr; busca la llamada y...
+                        - ..._valor de retorno de una función_? &rarr; busca la definicion de la función y...
+                        - ..._un atributo de clase_? &rarr; busca la definición de la clase y...
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Gradual typing
+
+              [_"Gradual Typing for Functional Languages"_ por Jeremy G. Siek y Walid Taha (2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
+
+              <br />
+
+              Se permite tanto _static typing_ como _dynamic typing_ en el código.
+
+              Utilíza el que quieras cuando quieras.
+
+              <br />
+              - Ejemplos: TypeScript, Groovy, Clojure, Lua, (annotated) Python,...
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              #### Definición informal <small>(1 de 2)</small>
+
+              Entre dos tipos, `t1` y `t2`, existe lo que se conoce como _**relacion de consistencia**_
+
+                - Similar a la relacion descrita en teoría de herencia de clases (~ _es-subtipo-de_)
+                - No simétrica
+                - No transitiva si el tipo `Any` está involucrado
+
+              <br />
+              _El valor `a` [`t1`] se puede asignar a la variable `x` [`t2`] si `t1` es un subtipo de `t2`_
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              #### Definición informal <small>(2 de 2)</small>
+              Hay 3 reglas para conocer la consistencia:
+
+              - Un tipo `t1` es consistente con un tipo `t2` si `t1` es un subtipo de `t2` (Y no al contrario).
+              - `Any` es consistente con cualquier typo (`Any` no es un subtipo de cualquier tipo).
+              - Cualquier tipo es consistente con `Any` (cualquier tipo no es un subtipo de `Any`).
+
+              <br />
+
+              ```
+              class Employee: ...
+              class Manager(Employee): ...
+
+              worker = Employee()     # type: Employee
+              worker = Manager()      # OK!: regla 1
+              boss = Manager()        # type: Manager
+              boss = Employee()       # Error
+
+              something = some_func() # type: Any
+              worker = something      # OK: regla 2
+              something = boss        # OK: regla 3
+              ```
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              # Gradual typing en Python
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ## Finalidad
+
+              #### ✔
+              - Mejorar la legibilidad del código a los humanos.
+              - Sintaxis estandar para la anotación de tipos.
+              - Facilitar el análisis estático y la refactorización del código python.
+              <br />
+
+              #### ✖
+              - Chequeo de tipos en _runtime_.
+              - Optimización de rendimiento, basado en el tipado.
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### Los inicios...
+
+              <br />
+
+              Desde fianles de los 90s nuestro amado BDFL ya pensaba en ello.
+
+                - 1998 - 2000: [Debate sobre interfaces](https://www.python.org/community/sigs/retired/types-sig/).
+                  - influyó en la definicón de _`zope.interfaces`_
+                  - ponencia de Guido con ejemplos de _function annotations_
+                - 2004: Post en Artima, [Adding Optional Static Typing to Python](https://www.artima.com/weblogs/viewpost.jsp?thread=85551).
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### Function Annotation [PEP 3107](https://www.python.org/dev/peps/pep-3107/)
+
+              <br />
+
+              - Python 3.0 (Creado el 2-Dic-2006).
+              - Anotación opcional de parámetros y valores de retorno de funciones.
+              - No se define la semántica de las anotaciones.
+              - Las lambdas no soportan anotaciones, requeriría una modificación de la sintaxis.
+              - Se planta la semilla para que la comunidad mueva ficha.
+
+              <br />
+
+              ```python
+              def foo(a: 'x', b: 5 + 6, c: list = [], *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
+                pass
+
+              foo.__annotations__
+
+              # Out: {'a': 'x', 'b': 11, 'c': list, 'd': 'an arg', 'e': 'a kwarg', 'return': 9}
+              ```
+            </textarea>
+          </section>
+
+          <section data-markdown>
+            <textarea data-template>
+              ### Type Hints [PEP 484](https://www.python.org/dev/peps/pep-0484/)
+
+              <br />
+              - Python 3.5 (Creado el 29-Sep-2014).
+              - Claramente inspirado en el desarrollo del type cheker `mypy` y la teoría de _Gradual Typing_.
+                - Literature overview for Type Hint [PEP 482](https://www.python.org/dev/peps/pep-0482/) (Creado el 8-Ene-2015)
+                - Theory of Type Hint [PEP 483](https://www.python.org/dev/peps/pep-0483/) (Creado el 19-Dic-2014)
+              - Define la semántica de las anotaciones, _Any_, _Generic Types_, _unions_...
+              - Implementa el módulo [typing](https://docs.python.org/3.7/library/typing.html) (en un [estado provisional](https://github.com/python/typing), sin introducir cambios en el core del lenguaje).
+
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### ...mejoras y optimizaciones
+
+              <br />
+
+              - Syntax for variable annotation [PEP 526](https://www.python.org/dev/peps/pep-0526/)
+                - Python 3.6 (Creado el 09-Ago-2016)
+              - Core support for typing module and generic types [PEP 560](https://www.python.org/dev/peps/pep-0560/)
+                - Python 3.7 (Creado el 03-Sep-2017)
+              - Postponed Evaluation of Annotations [PEP 563](https://www.python.org/dev/peps/pep-0563/)
+                - Python 3.7 (Creado el 08-Sep-2017)
+              - Protocol [PEP 544](https://www.python.org/dev/peps/pep-0544/) (_Draft_)
+            </textarea>
+          </section>
+        </section>
+
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              # Type Hinting syntax en Python
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Primitivas
+              <br />
+
+              ```python
+              int         # integer
+              float       # floating point number
+              complex     # complex number
+                          # (complex ~ float ~ int)
+              bool        # boolean value
+              str         # unicode string
+              bytes       # 8-bit string
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Variables
+
+              <br />
+              El tipado de las variables puede ser implicito
+
+              ```python
+              num = 3.4
+              ```
+              <br />
+              O explicito
+
+              ```python
+              num: float
+              num: float = 3.4
+
+              l: List[int]
+              l: List[int] = []
+              ```
+              <br />
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Any
+
+              ```python
+              from typing import Any
+
+              something: Any = 1
+              something = 's'
+              something = False
+              something = None
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Clases
+
+              <br />
+              - Las clases de Python son tipos (las instancias de sus subclases son consistentes)
+              - Ahora encontraras _type errors_ si accedes a métodos que no existen.
+                <br />&rarr;  No más errores en _runtime_ por _typos_!!
+              - En python 3.7 se arregla el problema con las _forward references_ ([PEP 563](https://www.python.org/dev/peps/pep-0563/))
+
+              ```python
+              class Foo:
+                  def bar(self):
+                      pass
+
+              f = Foo()
+              f.baz()     # Error: "Foo" has no attribute "baz"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Union <small>(1 de 2)</small>
+            <br />
+            `Union` sirve para representar un set de tipos válidos.
+
+            ```pytho
+            from typing import Union
+
+            def mul(n: int, m: Union[str, int]):
+                return n * m
+
+            mul(5, 1)     # -> 5
+            mul(5, '*')   # -> *****
+            mul(5, 2.0)   # Error:  Argument 2 to "mul" has incompatible type "float"; expected "Union[str, int]"
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Union <small>(2 de 2)</small>
+            <br />
+            ```
+            from typing import Any, Optional, Union
+
+            assert Union[str] == str
+            assert Union[Union[int, str], float] == Union[int, str, float]
+            assert Union[str, str, int] == Union[str, int]
+            assert Union[int, str] == Union[str, int]
+            assert Union[str, int, None] == Optional[Union[str, int]]
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Optional
+            <br />
+            `Optional` sirve para indicar que ese valor puede ser `None`
+            ```python
+            from typing import Optional
+
+            z: Optional[str] = None
+            z = 'text'
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Collections <small>(1 de 4)</small>
+              <br />
+
+              El módule `typing` contiene _generic types_ de las colecciones más comunes.
+              ```python
+              from typing import List, Dict, Set, Tuple, Deque
+
+              List[str]       # list of str objects
+              Dict[str, int]  # dictionary from str to int
+              Set[str]        # set of str objects
+              Tuple[int, int, int]  # a 3-tuple of ints
+              Tuple[int, ...] # a variable length tuple of ints
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Collections <small>(2 de 4)</small>
+              <br />
+
+              ```python
+              from typing import List, Set, NamedTuple
+
+              list_a: List[float]
+              list_a = ['a', 1.0, 2.0]   # Error: List item 0 has incompatible type "str"; expected "float"
+              list_a = [1, 1.0, 2.0]
+              list_b: List[Union[float, str]]
+              list_b = [1, 1.0, 'a']
+
+              set_a: Set[int] = {1, 2, 3}
+              set_a = {1, 2, 'a'}   # Error: Argument 3 to <set> has incompatible type "str"; expected "int"
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Collections <small>(3 de 4)</small>
+              <br />
+
+              Tambien hay `namedtuples()` con la nueva sintaxis
+              ```python
+              from typing import NamedTuple
+
+              class Employee(NamedTuple):
+                  """Represents an employee."""
+                  name: str
+                  id: int = 3
+
+                  def __repr__(self) -> str:
+                      return f'<Employee {self.name}, id={self.id}>'
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ### Collections <small>(4 de 4)</small>
+              <br />
+
+              Tambien están las _abstract collections_, definidas en `collections.abc`, útilas para el _duck typing_.
+              ```
+              from typing import Mapping, MutableMapping, Sequence, MutableSequence,...
+
+              Mapping[str, str]        # a mapping from strings to strings
+              MutableMapping[str, str] # a mutable mapping from strings to strings
+
+              Sequence[int]            # a sequence of integers
+              MutableSequence[int]     # a mutable sequence of integers
+              ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Callable
+            <br />
+            Para definir _callbacks_, funciones que se pasan como parámetro.
+
+            ```python
+            Callable[[int, int], str]
+            Callable[..., str]
+            ```
+            <br />
+            ```python
+            def feeder(get_next_item: Callable[[], str]) -> None:
+                pass
+
+
+            def async_query(
+              on_success: Callable[[int], None],
+              on_error: Callable[[int, Exception], None]
+            ) -> None:
+                pass
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### TypeVar
+
+            Sirven para declarar variables de tipo
+            <br />
+            ```python
+            T = TypeVar('T')       # can be anything
+            AnyStr = TypeVar('AnyStr', str, bytes)  # can be str or bytes
+
+            def concat(x: AnyStr, y: AnyStr) -> AnyStr:
+                return x + y
+
+            concat('aaa', 'bbb')
+            concat(b'aaa', b'bbb')
+            concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" cannot be "object"
+            ```
+
+            <small>NOTA: Revisar el [PEP 484](https://www.python.org/dev/peps/pep-0484/#id26) porque tienen algo más de miga: propiedades [covariancia, contravariancia e invariancia](https://es.wikipedia.org/wiki/Covariancia_y_contravariancia_(ciencias_de_la_computaci%C3%B3n)), bound...<small>
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Generic Clases
+            <br />
+            Son clases con uno o más tipos arbitrarios (TypeVar) que serán concretados con su uso.
+            <br />_&rarr; (Las colecciones que hemos visto con anterioridad son 'generci classes')_
+            ```python
+            from typing import Generic, List, TypeVar
+
+            Z = TypeVar('Z')
+
+            class Stack(Generic[Z]):
+                def __init__(self) -> None:
+                    self.items: List[Z] = []
+
+                def push(self, item: Z) -> None:
+                    self.items.append(item)
+
+                def pop(self) -> Z:
+                    return self.items.pop()
+
+                def empty(self) -> bool:
+                    return not self.items
+
+            stacki = Stack[int]()
+            stacki.push(1)
+            stacki.push('n')  # Error:  Argument 1 to "push" of "Stack" has incompatible type "str"; expected "int"
+            ```
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+            ### Y mucho, mucho más...
+            <br />
+            - Ficheros stub (para anotaciones de bibliotecas de terceros, p. e.)
+            - Casting
+            - Sobrecarga
+              ```python
+              @overload
+              def __getitem__(self, i: int) -> int: ...
+                pass
+
+              @overload
+              def __getitem__(self, s: slice, d: str) -> bytes: ...
+                pass
+              ```
+            - Tipos para IO
+            - Tipado por RegEx
+            - Metaprogramacion
+            - Protocols ([PEP 544](https://www.python.org/dev/peps/pep-0544/))
+            - Cómo desactivar el _type cheker_
+            - ...
+            </textarea>
+          </section>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Conclusiones
+            <br />
+            - Las anotaciones mejoran enormemente el proceso de desarrollo y la calidad del código.
+              - Hacen que el código sea más legible.
+              - Ayudan a detectar errores antes del _runtime_.
+              - Reducen el número de tests y de asserts.
+            - Mejorar nuestros editores y otras herramientas de análisis de código.
+              - incluso mejorar la performance del código ¿en un futuro no muy lejano? (Cython, Pyston, MypyC...)
+            - Los `type hints` son poco invasibos y _pythonicos_
+            - [PEP 20](https://www.python.org/dev/peps/pep-0020/) _"Explicito es mejor que implícito"_
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            # Muchas gracias!!
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ### Bibliografía <small>(1 de 2)</small>
+            <small>
+            #### Talks
+
+            - [Stanford Seminar 2018 - Optional Static Typing for Python by Guido van Rossum](https://www.youtube.com/watch?v=GiZKuyLKvAA)
+            - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://www.youtube.com/watch?v=mXfsMDM3LwQ)
+            - [PyCon 2017 - Static Types for Python by Jukka Lehtosalo, David Fisher](https://www.youtube.com/watch?v=7ZbwZgrXnwY)
+            - [PyCon 2015 - Type Hints by Guido van Rossum](https://www.youtube.com/watch?v=2wDvzy6Hgxg)
+]()
+
+            <br />
+            #### PEPs
+
+            - [PEP 3107 - Function Annotation](https://www.python.org/dev/peps/pep-3107/)
+            - [PEP 482 - Literature overview for Type Hint](https://www.python.org/dev/peps/pep-0482/)
+            - [PEP 483 - Theory of Type Hint](https://www.python.org/dev/peps/pep-0483/)
+            - [PEP 484 - Type Hints](https://www.python.org/dev/peps/pep-0484/)
+            - [PEP 526 - Syntx for variable annotation](https://www.python.org/dev/peps/pep-0526/)
+            - [PEP 544 - Protocol](https://www.python.org/dev/peps/pep-0544/)
+            - [PEP 560 - Core Support for typing module and Generic Types](https://www.python.org/dev/peps/pep-0560/)
+            - [PEP 563 - Postponed Evaluation of Annotations](https://www.python.org/dev/peps/pep-0563/)
+
+            <br />
+            #### Slides
+
+            - [PyConES 2014 - Gradual Typing in Python by Alejandro Gomez](http://2014.es.pycon.org/static/talks/gradual-typing-in-python/index.html)
+            - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://docs.google.com/presentation/d/1_LKkvn7Xta2w2f-eX3mB4j_zHhH_0IV7yq9_O90boMU/edit#slide=id.p)
+            - [PyCon 2016 - MyPy by MyPy Team](http://mypy-lang.blogspot.com/2016/05/slides-for-mypy-talk-at-pycon.html)
+            - [The typing module in Python 3.5 - 2015](https://www.slideshare.net/ryan_blunden/python-typing-module?qid=069ca21c-ba4a-4672-a481-09fa4fda7d64&v=&b=&from_search=8)
+
+            </small>
+          </textarea>
+        </section>
+        <section data-markdown>
+          <textarea data-template>
+            ### Bibliografía <small>(2 de 2)</small>
+            <small>
+            #### Links
+
+            - [Static v. dynamic languages](https://danluu.com/empirical-pl/)
+            - [I Finally Understand Static vs. Dynamic Typing and You Will Too!](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
+            - [Programming Concepts: Static vs. Dynamic Type Checking](https://thesocietea.org/2015/11/programming-concepts-static-vs-dynamic-type-checking/)
+            - [Static vs. dynamic typing of programming languages](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/)
+            - ["Gradual Typing for Functional Languages" (by Jeremy G. Siek y Walid Taha, 2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
+            - [24/03/2014 - What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
+            - [MyPy](http://www.mypy-lang.org/)
+            - [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html)
+            - 27/06/2018 - [Cool New Features in Python 3.7 - Typing Enhancements](https://realpython.com/python37-new-features/#typing-enhancements)
+            - 12/06/2018 - [A Python static typing update](https://lwn.net/Articles/757218/)
+            - 30/05/2018 - [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
+            - 13/10/2016 - [Static types in Python, oh my(py)!](https://blog.zulip.org/2016/10/13/static-types-in-python-oh-mypy/)
+            - 24/03/2014 - [What is Gradual Typeing?](http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
+            - [Cython - Python Compiler](https://cython.readthedocs.io)
+            - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
+            - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
+            - [Alore, Lang](http://www.alorelang.org/index.html)
+            </small>
+          </textarea>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="lib/js/jquery-3.3.1.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script type="text/javascript">
+      // 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
+      var header = $('#header').html();
+      if ( window.location.search.match( /print-pdf/gi ) ) {
+        Reveal.addEventListener( 'ready', function( event ) {
+          $('.slide-background').append(header);
+        });
+      }
+      else {
+        $('div.reveal').append(header);
+      }
+    </script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        // Size
+        // 16:9 FullHD
+        width: 1920,
+        width: "70%",
+        height: 1080,
+        // 16:9
+        //width: 1280,
+        //height: 720,
+        // Full size
+        //width: "100%",
+        //height: "100%",
+
+        // Control settings
+        controlsTutorial: true,
+        controlsLayout: 'bottom-right', // edges/bottom-right
+        controlsBackArrows: 'faded', // faded/hidden/visible
+        progress: true,
+        slideNumber: false,
+        history: true,
+
+        // Transition settings
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        transitionSpeed: 'default', // default/fast/slow
+        backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+
+        // Pdf settings
+        pdfMaxPagesPerSlide: 1,
+
+        // Plugin: elapsed-time-bar
+        allottedTime: 35 * 60 * 1000, // 35 minutes
+        progressBarHeight: 5,
+        barColor: '#ea1164',
+        pausedBarColor: '#888',
+
+        // Keyboard bindings
+        keyboard: {
+          // pause/resume time when Enter is pressed
+          13: () => {
+            ElapsedTimeBar.isPaused ? ElapsedTimeBar.resume() : ElapsedTimeBar.pause();
+          },
+          // reset timer when 'r' is pressed
+          82: () => {
+            ElapsedTimeBar.reset();
+          }
+        },
+
+        // Dependencies
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/elapsed-time-bar/elapsed-time-bar.js'}
+        ]
+      });
+    </script>
+  </body>
+</html>

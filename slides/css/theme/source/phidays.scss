@@ -1,0 +1,213 @@
+/**
+ * PhyDays theme for reveal.js.
+ *
+ * Copyright (C) 2018 David Barragán Merino
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Theme settings ------------------------------
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=Poppins:400,400i,600,600i,700,700i&subset=latin-ext);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,600i,700,700i&subset=latin-ext);
+
+
+// Colors
+$colorWhite: #fff;
+$colorGray500: #3452d4;
+$colorBlack: #000;
+$colorBlue800: #3452d4;
+$colorBlue400: #78e0e6;
+$colorPink500: #ea1164;
+
+// Override theme settings (see ../template/settings.scss)
+// Background of the presentation
+$backgroundColor: $colorWhite;
+
+// Primary/body text
+$mainFont: 'Montserrat', Impact, sans-serif;
+//$mainFontSize: 40px;
+$mainColor: $colorBlack;
+
+// Vertical spacing between blocks of text
+//$blockMargin: 20px;
+
+// Headings
+$headingMargin: 0 0 $blockMargin 0;
+$headingFont: 'Poppins', sans-serif;
+$headingColor: $colorPink500;
+//$headingLineHeight: 1.2;
+//$headingLetterSpacing: normal;
+$headingTextTransform: none;
+//$headingTextShadow: none;
+$headingFontWeight: 600;
+//$heading1TextShadow: $headingTextShadow;
+
+//$heading1Size: 3.77em;
+//$heading2Size: 2.11em;
+//$heading3Size: 1.55em;
+//$heading4Size: 1.00em;
+
+// Links and actions
+$linkColor: $colorBlue800;
+$linkColorHover: lighten($linkColor, 20%);
+
+// Text selection
+$selectionBackgroundColor: $colorGray500;
+$selectionColor: #fff;
+// ---------------------------------------------
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+
+// Customization -------------------------------
+.reveal {
+  section img.plain {
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .controls {
+    bottom: 3.5rem;
+  }
+
+  h4, h5, p {
+    text-align: left;
+  }
+
+  ul {
+    display: block;
+    margin-left: 5rem;
+  }
+
+  ol {
+    display: block;
+    margin-left: 5rem;
+  }
+
+  pre {
+    width: 100%;
+
+    code {
+      font-size: 2rem;
+      line-height: 2.5rem;
+    }
+  }
+}
+// ---------------------------------------------
+
+
+// Extra customization: ------------------------
+
+%white-text {
+  color: $colorWhite;
+
+  h1, h2, h4, h5, p, a {
+    color: $colorWhite;
+  }
+  h3 {
+    color: $colorBlue400;
+  }
+  a {
+    font-weight: 600;
+    transition: color .15s ease;
+
+    &:hover { color: transparentize($colorWhite, .5); }
+  }
+}
+
+// --- Coover ---
+.reveal .cover {
+  @extend %white-text;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  h1 { font-size: 3.27em; }
+  h2 { font-size: 1.61em; }
+  h3 { font-size: 1.05em; }
+  h4 { font-size: .5em; }
+
+  .logo {
+    max-height: 30%;
+    max-width: 30%;
+    padding-right: 4em;
+  }
+
+  .content { min-width: 60%; }
+}
+
+// --- Who I am
+.reveal .whoiam {
+  @extend %white-text;
+  text-align: left;
+
+  .content {
+    position: absolute;
+  }
+}
+
+// --- Header & footer ---
+#header-left {
+  position: absolute;
+  top: 1%;
+  left: 2%;
+
+  img {
+    max-height: 2em;
+    opacity: .2;
+  }
+}
+
+#header-right {
+  position: absolute;
+  top: 1%;
+  right: 3%;
+
+  img {
+    max-height: 2em;
+    opacity: .2;
+  }
+}
+
+#footer-center {
+  position: absolute;
+  bottom: 3rem;
+  left: 0%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  img {
+    max-height: 2em;
+    opacity: .4;
+  }
+
+  .line {
+    border-top: 1px dashed transparentize($colorBlue800, .4);
+    width: 40em;
+    height: 0px;
+    margin: 0 3em;
+    align-self: center;
+
+    &.left {
+        margin: 0 3rem;
+    }
+    &.right {
+        margin: 0 9rem 0 3rem;
+    }
+  }
+}
+
+// ---------------------------------------------
