@@ -10,7 +10,7 @@
 
     <!-- custom css theme -->
     <!-- <link rel="stylesheet" href="css/theme/black.css"> -->
-    <link rel="stylesheet" href="css/theme/phidays.css" id="theme">
+    <link rel="stylesheet" href="css/theme/pycones18.css" id="theme">
 
     <!-- Theme used for syntax highlighting of code -->
       <!-- <link rel="stylesheet" href="lib/css/atom-one-dark.css" id="highlight-theme"> -->
@@ -37,6 +37,7 @@
 
     <!-- Create hidden header/footer <div> -->
     <div id="hidden" style="display:none;">
+      <!--
       <div id="header">
         <div id="header-left">
           <img src='img/cmmon/bubbles.png' alt="" />
@@ -50,28 +51,33 @@
           <div class="line right"></div>
         </div>
       </div>
+      -->
     </div>
 
     <div class="reveal">
       <div class="slides">
 
-        <section data-background="img/cmmon/background-cover.png">
+        <section data-background-color="#fff">
           <div class="cover">
-            <img class="logo plain" src="img/cmmon/logo-phidays.png" />
+            <img class="logo plain" src='img/cmmon/logo-pycones.svg' alt="" />
             <div class="content">
               <h1>He venido a hablar de mis tipos...</h1>
+              <br /><br />
               <h3>Gradual Typing en Python</h3>
             </div>
           </div>
         </section>
 
-        <section data-background-color="#3452d4"
+        <section data-background-color="#fff"
                  data-background-image="img/slides/whoiam/david.jpg"
                  data-background-position="right"
                  data-background-size="auto 100%"
-                 class="whoiam">
+                 class="whoiam"
+                 style="left: -100px">
           <h1>Hola!</h1>
-          <h3>David Barragán<br />Merino</h3>
+          <br />
+          <br />
+          <h3>David Barragán Merino</h3>
           <!--
           <p>
             <a href="http://kaleidos.net/FFF8E7/">#FFF8E7</a>&nbsp;en&nbsp;
@@ -197,14 +203,11 @@
             <textarea data-template>
               #### ¿Qué hace este código?
 
-              <br />
               ```python
               def validate_entries(entries):
                   for entry in entries:
                       entry.data.validate()
               ```
-              <br />
-
               - `grep validate` y a buscar su definición &rarr; 154 definiciones
                 - debemos averiguar el típo del objeto de `validate()`
                   - debemos averiguar el tipo de `entry.data`
@@ -261,7 +264,7 @@
 
               <br />
 
-              ```
+              ```python
               class Employee: ...
               class Manager(Employee): ...
 
@@ -279,7 +282,7 @@
         </section>
 
         <section>
-          <section data-markdown>
+          <section data-markdown class="section-cover blue">
             <textarea data-template>
               # Gradual typing en Python
             </textarea>
@@ -303,77 +306,28 @@
 
           <section data-markdown>
             <textarea data-template>
-              ### Los inicios...
+              ### La historia... y los PEPs
 
-              <br />
-
-              Desde fianles de los 90s nuestro amado BDFL ya pensaba en ello.
-
-                - 1998 - 2000: [Debate sobre interfaces](https://www.python.org/community/sigs/retired/types-sig/).
-                  - influyó en la definicón de _`zope.interfaces`_
-                  - ponencia de Guido con ejemplos de _function annotations_
-                - 2004: Post en Artima, [Adding Optional Static Typing to Python](https://www.artima.com/weblogs/viewpost.jsp?thread=85551).
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              ### Function Annotation [PEP 3107](https://www.python.org/dev/peps/pep-3107/)
-
-              <br />
-
-              - Python 3.0 (Creado el 2-Dic-2006).
-              - Anotación opcional de parámetros y valores de retorno de funciones.
-              - No se define la semántica de las anotaciones.
-              - Las lambdas no soportan anotaciones, requeriría una modificación de la sintaxis.
-              - Se planta la semilla para que la comunidad mueva ficha.
-
-              <br />
-
-              ```python
-              def foo(a: 'x', b: 5 + 6, c: list = [], *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
-                pass
-
-              foo.__annotations__
-
-              # Out: {'a': 'x', 'b': 11, 'c': list, 'd': 'an arg', 'e': 'a kwarg', 'return': 9}
-              ```
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              ### Type Hints [PEP 484](https://www.python.org/dev/peps/pep-0484/)
-
-              <br />
-              - Python 3.5 (Creado el 29-Sep-2014).
-              - Claramente inspirado en el desarrollo del type cheker `mypy` y la teoría de _Gradual Typing_.
-                - Literature overview for Type Hint [PEP 482](https://www.python.org/dev/peps/pep-0482/) (Creado el 8-Ene-2015)
-                - Theory of Type Hint [PEP 483](https://www.python.org/dev/peps/pep-0483/) (Creado el 19-Dic-2014)
-              - Define la semántica de las anotaciones, _Any_, _Generic Types_, _unions_...
-              - Implementa el módulo [typing](https://docs.python.org/3.7/library/typing.html) (en un [estado provisional](https://github.com/python/typing), sin introducir cambios en el core del lenguaje).
-
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### ...mejoras y optimizaciones
-
-              <br />
-
-              - Syntax for variable annotation [PEP 526](https://www.python.org/dev/peps/pep-0526/)
-                - Python 3.6 (Creado el 09-Ago-2016)
-              - Core support for typing module and generic types [PEP 560](https://www.python.org/dev/peps/pep-0560/)
-                - Python 3.7 (Creado el 03-Sep-2017)
-              - Postponed Evaluation of Annotations [PEP 563](https://www.python.org/dev/peps/pep-0563/)
-                - Python 3.7 (Creado el 08-Sep-2017)
-              - Protocol [PEP 544](https://www.python.org/dev/peps/pep-0544/) (_Draft_)
+                - **1998 - 2004:**
+                  - [Debate sobre interfaces](https://www.python.org/community/sigs/retired/types-sig/)
+                  - Ponencia de Guido con ejemplos de _function annotations_
+                  - Post en Artima, [Adding Optional Static Typing to Python](https://www.artima.com/weblogs/viewpost.jsp?thread=85551)
+                - **2006:** Function Annotation [PEP 3107](https://www.python.org/dev/peps/pep-3107/) _(Python 3.0)_
+                - **2014:** Type Hints [PEP 484](https://www.python.org/dev/peps/pep-0484/) _(Python 3.5)_
+                  - Literature overview for Type Hint [PEP 482](https://www.python.org/dev/peps/pep-0482/)
+                  - Theory of Type Hint [PEP 483](https://www.python.org/dev/peps/pep-0483/)
+                  - Implementa el módulo [typing](https://docs.python.org/3.7/library/typing.html) (en un [estado provisional](https://github.com/python/typing), sin introducir cambios en el core del lenguaje).
+                - **2016 - hoy:**
+                  - Syntax for variable annotation [PEP 526](https://www.python.org/dev/peps/pep-0526/) _(Python 3.6)_
+                  - Core support for typing module and generic types [PEP 560](https://www.python.org/dev/peps/pep-0560/) _(Python 3.7)_
+                  - Postponed Evaluation of Annotations [PEP 563](https://www.python.org/dev/peps/pep-0563/) _(Python 3.7)_
+                  - Protocol [PEP 544](https://www.python.org/dev/peps/pep-0544/) _(Draft)_
             </textarea>
           </section>
         </section>
 
         <section>
-          <section data-markdown>
+          <section data-markdown class="section-cover blue">
             <textarea data-template>
               # Type Hinting syntax en Python
             </textarea>
@@ -433,6 +387,21 @@
           </section>
           <section data-markdown>
             <textarea data-template>
+              ### Funciones y métodos
+
+              ```python
+              def foo(a: 'x', b: 5 + 6, c: list = [], *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
+                pass
+
+              foo.__annotations__
+
+              # Out: {'a': 'x', 'b': 11, 'c': list, 'd': 'an arg', 'e': 'a kwarg', 'return': 9}
+              ```
+              <br />
+            </textarea>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
               ### Clases
 
               <br />
@@ -473,7 +442,7 @@
             <textarea data-template>
             ### Union <small>(2 de 2)</small>
             <br />
-            ```
+            ```python
             from typing import Any, Optional, Union
 
             assert Union[str] == str
@@ -558,7 +527,7 @@
               <br />
 
               Tambien están las _abstract collections_, definidas en `collections.abc`, útilas para el _duck typing_.
-              ```
+              ```python
               from typing import Mapping, MutableMapping, Sequence, MutableSequence,...
 
               Mapping[str, str]        # a mapping from strings to strings
@@ -653,11 +622,11 @@
             - Sobrecarga
               ```python
               @overload
-              def __getitem__(self, i: int) -> int: ...
+              def overloaded_func(self, i: int) -> int: ...
                 pass
 
               @overload
-              def __getitem__(self, s: slice, d: str) -> bytes: ...
+              def overloaded_func(self, s: slice, d: str) -> bytes: ...
                 pass
               ```
             - Tipos para IO
@@ -681,73 +650,67 @@
             - Mejorar nuestros editores y otras herramientas de análisis de código.
               - incluso mejorar la performance del código ¿en un futuro no muy lejano? (Cython, Pyston, MypyC...)
             - Los `type hints` son poco invasibos y _pythonicos_
-            - [PEP 20](https://www.python.org/dev/peps/pep-0020/) _"Explicito es mejor que implícito"_
+            - [PEP 20](https://www.python.org/dev/peps/pep-0020/) _**"Explicito es mejor que implícito"**_
           </textarea>
         </section>
-        <section data-markdown>
+        <section data-markdown class="section-cover orange">
           <textarea data-template>
             # Muchas gracias!!
           </textarea>
         </section>
-        <section data-markdown>
+        <section data-markdown class="bibliography">
           <textarea data-template>
             ### Bibliografía <small>(1 de 2)</small>
-            <small>
-            #### Talks
 
-            - [Stanford Seminar 2018 - Optional Static Typing for Python by Guido van Rossum](https://www.youtube.com/watch?v=GiZKuyLKvAA)
-            - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://www.youtube.com/watch?v=mXfsMDM3LwQ)
-            - [PyCon 2017 - Static Types for Python by Jukka Lehtosalo, David Fisher](https://www.youtube.com/watch?v=7ZbwZgrXnwY)
-            - [PyCon 2015 - Type Hints by Guido van Rossum](https://www.youtube.com/watch?v=2wDvzy6Hgxg)
-]()
+            Talks
 
-            <br />
-            #### PEPs
+              - [Stanford Seminar 2018 - Optional Static Typing for Python by Guido van Rossum](https://www.youtube.com/watch?v=GiZKuyLKvAA)
+              - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://www.youtube.com/watch?v=mXfsMDM3LwQ)
+              - [PyCon 2017 - Static Types for Python by Jukka Lehtosalo, David Fisher](https://www.youtube.com/watch?v=7ZbwZgrXnwY)
+              - [PyCon 2015 - Type Hints by Guido van Rossum](https://www.youtube.com/watch?v=2wDvzy6Hgxg)
 
-            - [PEP 3107 - Function Annotation](https://www.python.org/dev/peps/pep-3107/)
-            - [PEP 482 - Literature overview for Type Hint](https://www.python.org/dev/peps/pep-0482/)
-            - [PEP 483 - Theory of Type Hint](https://www.python.org/dev/peps/pep-0483/)
-            - [PEP 484 - Type Hints](https://www.python.org/dev/peps/pep-0484/)
-            - [PEP 526 - Syntx for variable annotation](https://www.python.org/dev/peps/pep-0526/)
-            - [PEP 544 - Protocol](https://www.python.org/dev/peps/pep-0544/)
-            - [PEP 560 - Core Support for typing module and Generic Types](https://www.python.org/dev/peps/pep-0560/)
-            - [PEP 563 - Postponed Evaluation of Annotations](https://www.python.org/dev/peps/pep-0563/)
+            PEPs
 
-            <br />
-            #### Slides
+              - [PEP 3107 - Function Annotation](https://www.python.org/dev/peps/pep-3107/)
+              - [PEP 482 - Literature overview for Type Hint](https://www.python.org/dev/peps/pep-0482/)
+              - [PEP 483 - Theory of Type Hint](https://www.python.org/dev/peps/pep-0483/)
+              - [PEP 484 - Type Hints](https://www.python.org/dev/peps/pep-0484/)
+              - [PEP 526 - Syntx for variable annotation](https://www.python.org/dev/peps/pep-0526/)
+              - [PEP 544 - Protocol](https://www.python.org/dev/peps/pep-0544/)
+              - [PEP 560 - Core Support for typing module and Generic Types](https://www.python.org/dev/peps/pep-0560/)
+              - [PEP 563 - Postponed Evaluation of Annotations](https://www.python.org/dev/peps/pep-0563/)
 
-            - [PyConES 2014 - Gradual Typing in Python by Alejandro Gomez](http://2014.es.pycon.org/static/talks/gradual-typing-in-python/index.html)
-            - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://docs.google.com/presentation/d/1_LKkvn7Xta2w2f-eX3mB4j_zHhH_0IV7yq9_O90boMU/edit#slide=id.p)
-            - [PyCon 2016 - MyPy by MyPy Team](http://mypy-lang.blogspot.com/2016/05/slides-for-mypy-talk-at-pycon.html)
-            - [The typing module in Python 3.5 - 2015](https://www.slideshare.net/ryan_blunden/python-typing-module?qid=069ca21c-ba4a-4672-a481-09fa4fda7d64&v=&b=&from_search=8)
+            Slides
 
-            </small>
+              - [PyConES 2014 - Gradual Typing in Python by Alejandro Gomez](http://2014.es.pycon.org/static/talks/gradual-typing-in-python/index.html)
+              - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://docs.google.com/presentation/d/1_LKkvn7Xta2w2f-eX3mB4j_zHhH_0IV7yq9_O90boMU/edit#slide=id.p)
+              - [PyCon 2016 - MyPy by MyPy Team](http://mypy-lang.blogspot.com/2016/05/slides-for-mypy-talk-at-pycon.html)
+              - [The typing module in Python 3.5 - 2015](https://www.slideshare.net/ryan_blunden/python-typing-module?qid=069ca21c-ba4a-4672-a481-09fa4fda7d64&v=&b=&from_search=8)
           </textarea>
         </section>
-        <section data-markdown>
+        <section data-markdown class="bibliography">
           <textarea data-template>
             ### Bibliografía <small>(2 de 2)</small>
-            <small>
-            #### Links
 
-            - [Static v. dynamic languages](https://danluu.com/empirical-pl/)
-            - [I Finally Understand Static vs. Dynamic Typing and You Will Too!](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
-            - [Programming Concepts: Static vs. Dynamic Type Checking](https://thesocietea.org/2015/11/programming-concepts-static-vs-dynamic-type-checking/)
-            - [Static vs. dynamic typing of programming languages](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/)
-            - ["Gradual Typing for Functional Languages" (by Jeremy G. Siek y Walid Taha, 2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
-            - [24/03/2014 - What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
-            - [MyPy](http://www.mypy-lang.org/)
-            - [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html)
-            - 27/06/2018 - [Cool New Features in Python 3.7 - Typing Enhancements](https://realpython.com/python37-new-features/#typing-enhancements)
-            - 12/06/2018 - [A Python static typing update](https://lwn.net/Articles/757218/)
-            - 30/05/2018 - [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
-            - 13/10/2016 - [Static types in Python, oh my(py)!](https://blog.zulip.org/2016/10/13/static-types-in-python-oh-mypy/)
-            - 24/03/2014 - [What is Gradual Typeing?](http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
-            - [Cython - Python Compiler](https://cython.readthedocs.io)
-            - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
-            - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
-            - [Alore, Lang](http://www.alorelang.org/index.html)
-            </small>
+            Links
+
+              - [Static v. dynamic languages](https://danluu.com/empirical-pl/)
+              - [I Finally Understand Static vs. Dynamic Typing and You Will Too!](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
+              - [Programming Concepts: Static vs. Dynamic Type Checking](https://thesocietea.org/2015/11/programming-concepts-static-vs-dynamic-type-checking/)
+              - [Static vs. dynamic typing of programming languages](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/)
+              - ["Gradual Typing for Functional Languages" (by Jeremy G. Siek y Walid Taha, 2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
+              - [24/03/2014 - What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
+              - [MyPy](http://www.mypy-lang.org/)
+              - [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html)
+              - 27/06/2018 - [Cool New Features in Python 3.7 - Typing Enhancements](https://realpython.com/python37-new-features/#typing-enhancements)
+              - 12/06/2018 - [A Python static typing update](https://lwn.net/Articles/757218/)
+              - 30/05/2018 - [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
+              - 13/10/2016 - [Static types in Python, oh my(py)!](https://blog.zulip.org/2016/10/13/static-types-in-python-oh-mypy/)
+              - 24/03/2014 - [What is Gradual Typeing?](http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
+              - [Cython - Python Compiler](https://cython.readthedocs.io)
+              - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
+              - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
+              - [Alore, Lang](http://www.alorelang.org/index.html)
           </textarea>
         </section>
       </div>
@@ -806,7 +769,7 @@
         // Plugin: elapsed-time-bar
         allottedTime: 35 * 60 * 1000, // 35 minutes
         progressBarHeight: 5,
-        barColor: '#ea1164',
+        barColor: '#DEBC3E',
         pausedBarColor: '#888',
 
         // Keyboard bindings

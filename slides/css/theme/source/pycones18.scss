@@ -13,17 +13,19 @@
 
 // Theme settings ------------------------------
 // Include theme-specific fonts
-@import url(https://fonts.googleapis.com/css?family=Poppins:400,400i,600,600i,700,700i&subset=latin-ext);
+@import url(https://fonts.googleapis.com/css?family=Inconsolata:400,400i,600,600i,700,700i&subset=latin-ext);
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,600i,700,700i&subset=latin-ext);
 
 
 // Colors
 $colorWhite: #fff;
-$colorGray500: #3452d4;
 $colorBlack: #000;
-$colorBlue800: #3452d4;
-$colorBlue400: #78e0e6;
-$colorPink500: #ea1164;
+$colorBlue800: #1a0c85;
+$colorBlue600: #506bc7;
+$colorBlue400: #0fb9da;
+$colorBlue200: #9ce4f0;
+$colorBlue100: #c5e9ee;
+$colorOrange400: #DEBC3E;
 
 // Override theme settings (see ../template/settings.scss)
 // Background of the presentation
@@ -39,13 +41,13 @@ $mainColor: $colorBlack;
 
 // Headings
 $headingMargin: 0 0 $blockMargin 0;
-$headingFont: 'Poppins', sans-serif;
-$headingColor: $colorPink500;
+$headingFont: 'Inconsolata', sans-serif;
+$headingColor: $colorBlack;
 //$headingLineHeight: 1.2;
 //$headingLetterSpacing: normal;
 $headingTextTransform: none;
 //$headingTextShadow: none;
-$headingFontWeight: 600;
+$headingFontWeight: 400;
 //$heading1TextShadow: $headingTextShadow;
 
 //$heading1Size: 3.77em;
@@ -54,12 +56,12 @@ $headingFontWeight: 600;
 //$heading4Size: 1.00em;
 
 // Links and actions
-$linkColor: $colorBlue800;
-$linkColorHover: lighten($linkColor, 20%);
+$linkColor: $colorBlue400;
+$linkColorHover: $colorOrange400;
 
 // Text selection
-$selectionBackgroundColor: $colorGray500;
-$selectionColor: #fff;
+$selectionBackgroundColor: lighten($colorBlack, 75%);
+$selectionColor: $colorWhite;
 // ---------------------------------------------
 
 
@@ -80,13 +82,21 @@ $selectionColor: #fff;
     bottom: 3.5rem;
   }
 
+  h1, h2, h3, h4, h5 {
+    background-color: $colorBlack;
+    color: $colorWhite;
+    padding: 1rem 3.5rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+
   h4, h5, p {
     text-align: left;
   }
 
   ul {
     display: block;
-    margin-left: 5rem;
+    margin: 0 0 0 1em;
   }
 
   ol {
@@ -102,6 +112,10 @@ $selectionColor: #fff;
       line-height: 2.5rem;
     }
   }
+
+  a {
+    font-weight: 600;
+  }
 }
 // ---------------------------------------------
 
@@ -109,11 +123,8 @@ $selectionColor: #fff;
 // Extra customization: ------------------------
 
 %white-text {
-  color: $colorWhite;
+  color: $colorBlack;
 
-  h1, h2, h4, h5, p, a {
-    color: $colorWhite;
-  }
   h3 {
     color: $colorBlue400;
   }
@@ -121,7 +132,7 @@ $selectionColor: #fff;
     font-weight: 600;
     transition: color .15s ease;
 
-    &:hover { color: transparentize($colorWhite, .5); }
+    &:hover { color: transparentize($colorBlack, .5); }
   }
 }
 
@@ -133,81 +144,115 @@ $selectionColor: #fff;
   justify-content: space-around;
   align-items: center;
 
-  h1 { font-size: 3.27em; }
-  h2 { font-size: 1.61em; }
-  h3 { font-size: 1.05em; }
-  h4 { font-size: .5em; }
+  h1 {
+    background-color: unset;
+    color: $colorBlack;
+    font-size: 3.27em;
+  }
+  h3 {
+    background-color: $colorBlack;
+    color: $colorWhite;
+    font-size: 1.05em;
+  }
 
   .logo {
-    max-height: 30%;
-    max-width: 30%;
+    min-height: 35%;
+    min-width: 35%;
     padding-right: 4em;
   }
 
-  .content { min-width: 60%; }
+  .content { min-width: 70%; }
 }
 
 // --- Who I am
 .reveal .whoiam {
   @extend %white-text;
   text-align: left;
+  left: 200px;
 
-  .content {
-    position: absolute;
+  h3 {
+    background-color: unset;
+    font-weight: 600;
+  }
+}
+
+// --- section cover
+.reveal .section-cover {
+  background-color: $colorBlack;
+
+  &.orange {
+    background-color: $colorOrange400;
+  }
+
+  &.blue {
+    background-color: $colorBlue400;
+  }
+
+  h1, h2, h3, h4, h5 {
+    background-color: unset;
+    color: $colorWhite;
+    font-weight: 800;
+  }
+}
+
+// --- bibliography
+.reveal .bibliography {
+  ul {
+    font-size: .55em;
   }
 }
 
 // --- Header & footer ---
-#header-left {
-  position: absolute;
-  top: 1%;
-  left: 2%;
-
-  img {
-    max-height: 2em;
-    opacity: .2;
-  }
-}
-
-#header-right {
-  position: absolute;
-  top: 1%;
-  right: 3%;
-
-  img {
-    max-height: 2em;
-    opacity: .2;
-  }
-}
-
-#footer-center {
-  position: absolute;
-  bottom: 3rem;
-  left: 0%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  img {
-    max-height: 2em;
-    opacity: .4;
-  }
-
-  .line {
-    border-top: 1px dashed transparentize($colorBlue800, .4);
-    width: 40em;
-    height: 0px;
-    margin: 0 3em;
-    align-self: center;
-
-    &.left {
-        margin: 0 3rem;
-    }
-    &.right {
-        margin: 0 9rem 0 3rem;
-    }
-  }
-}
+//#header-left {
+//  position: absolute;
+//  top: 1%;
+//  left: 2%;
+//
+//  img {
+//    max-height: 2em;
+//    opacity: .2;
+//  }
+//}
+//
+//#header-right {
+//  position: absolute;
+//  top: 1%;
+//  right: 3%;
+//
+//  img {
+//    max-height: 2em;
+//    opacity: .2;
+//  }
+//}
+//
+//#footer-center {
+//  position: absolute;
+//  bottom: 3rem;
+//  left: 0%;
+//  width: 100%;
+//  display: flex;
+//  flex-direction: row;
+//  justify-content: center;
+//
+//  img {
+//    max-height: 2em;
+//    opacity: .4;
+//  }
+//
+//  .line {
+//    border-top: 1px dashed transparentize($colorBlue400, .4);
+//    width: 40em;
+//    height: 0px;
+//    margin: 0 3em;
+//    align-self: center;
+//
+//    &.left {
+//        margin: 0 3rem;
+//    }
+//    &.right {
+//        margin: 0 9rem 0 3rem;
+//    }
+//  }
+//}
 
 // ---------------------------------------------
