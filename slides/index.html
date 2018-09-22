@@ -262,18 +262,16 @@
               - `Any` es consistente con cualquier typo (`Any` no es un subtipo de cualquier tipo).
               - Cualquier tipo es consistente con `Any` (cualquier tipo no es un subtipo de `Any`).
 
-              <br />
-
               ```python
-              class Employee: ...
-              class Manager(Employee): ...
+              class Employee: pass
+              class Manager(Employee): pass
 
-              worker = Employee()     # type: Employee
+              worker = Employee()     # tipo: Employee
               worker = Manager()      # OK!: regla 1
-              boss = Manager()        # type: Manager
+              boss = Manager()        # tipo: Manager
               boss = Employee()       # Error
 
-              something = some_func() # type: Any
+              something: Any = 1      # tipo: Any
               worker = something      # OK: regla 2
               something = boss        # OK: regla 3
               ```
@@ -291,6 +289,7 @@
           <section data-markdown>
             <textarea data-template>
               ## Finalidad
+              <br />
 
               #### ✔
               - Mejorar la legibilidad del código a los humanos.
@@ -352,13 +351,12 @@
             <textarea data-template>
               ### Variables
 
-              <br />
               El tipado de las variables puede ser implicito
 
               ```python
               num = 3.4
               ```
-              <br />
+
               O explicito
 
               ```python
@@ -390,12 +388,14 @@
               ### Funciones y métodos
 
               ```python
-              def foo(a: 'x', b: 5 + 6, c: list = [], *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
+              def foo(a: 'x', b: 5 + 6, c: list = [],
+                      *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
                 pass
 
               foo.__annotations__
 
-              # Out: {'a': 'x', 'b': 11, 'c': list, 'd': 'an arg', 'e': 'a kwarg', 'return': 9}
+              # Out: {'a': 'x', 'b': 11, 'c': list,
+              #       'd': 'an arg', 'e': 'a kwarg', 'return': 9}
               ```
               <br />
             </textarea>
@@ -404,29 +404,31 @@
             <textarea data-template>
               ### Clases
 
-              <br />
               - Las clases de Python son tipos (las instancias de sus subclases son consistentes)
+              - En python 3.7 se arregla el problema con las _forward references_ ([PEP 563](https://www.python.org/dev/peps/pep-0563/))
               - Ahora encontraras _type errors_ si accedes a métodos que no existen.
                 <br />&rarr;  No más errores en _runtime_ por _typos_!!
-              - En python 3.7 se arregla el problema con las _forward references_ ([PEP 563](https://www.python.org/dev/peps/pep-0563/))
 
               ```python
               class Foo:
-                  def bar(self):
+                  def do_something(self):
                       pass
 
-              f = Foo()
-              f.baz()     # Error: "Foo" has no attribute "baz"
+              class Bar:
+                  def run(self, x: Foo):
+                      x.od_something()
+                      # ^ Error: "Foo" has no attribute "od_something";
+                      #          maybe "do_something"?
               ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
             ### Union <small>(1 de 2)</small>
-            <br />
+
             `Union` sirve para representar un set de tipos válidos.
 
-            ```pytho
+            ```python
             from typing import Union
 
             def mul(n: int, m: Union[str, int]):
@@ -434,14 +436,16 @@
 
             mul(5, 1)     # -> 5
             mul(5, '*')   # -> *****
-            mul(5, 2.0)   # Error:  Argument 2 to "mul" has incompatible type "float"; expected "Union[str, int]"
+            mul(5, 2.0)
+            # ^ Error:  Argument 2 to "mul" has incompatible type "float";
+            #           expected "Union[str, int]"
             ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
             ### Union <small>(2 de 2)</small>
-            <br />
+
             ```python
             from typing import Any, Optional, Union
 
@@ -456,8 +460,9 @@
           <section data-markdown>
             <textarea data-template>
             ### Optional
-            <br />
+
             `Optional` sirve para indicar que ese valor puede ser `None`
+
             ```python
             from typing import Optional
 
@@ -469,9 +474,9 @@
           <section data-markdown>
             <textarea data-template>
               ### Collections <small>(1 de 4)</small>
-              <br />
 
               El módule `typing` contiene _generic types_ de las colecciones más comunes.
+
               ```python
               from typing import List, Dict, Set, Tuple, Deque
 
@@ -486,28 +491,30 @@
           <section data-markdown>
             <textarea data-template>
               ### Collections <small>(2 de 4)</small>
-              <br />
 
               ```python
               from typing import List, Set, NamedTuple
 
               list_a: List[float]
-              list_a = ['a', 1.0, 2.0]   # Error: List item 0 has incompatible type "str"; expected "float"
               list_a = [1, 1.0, 2.0]
+              list_a = ['a', 1.0, 2.0]
+              # ^ Error: List item 0 has incompatible type "str"; expected "float"
+
               list_b: List[Union[float, str]]
               list_b = [1, 1.0, 'a']
 
               set_a: Set[int] = {1, 2, 3}
-              set_a = {1, 2, 'a'}   # Error: Argument 3 to <set> has incompatible type "str"; expected "int"
+              set_a = {1, 2, 'a'}
+              # ^ Error: Argument 3 to <set> has incompatible type "str"; expected "int"
               ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
               ### Collections <small>(3 de 4)</small>
-              <br />
 
               Tambien hay `namedtuples()` con la nueva sintaxis
+
               ```python
               from typing import NamedTuple
 
@@ -524,9 +531,9 @@
           <section data-markdown>
             <textarea data-template>
               ### Collections <small>(4 de 4)</small>
-              <br />
 
-              Tambien están las _abstract collections_, definidas en `collections.abc`, útilas para el _duck typing_.
+              Tambien están las _abstract collections_, definidas en `collections.abc` (útiles para el _duck typing_).
+
               ```python
               from typing import Mapping, MutableMapping, Sequence, MutableSequence,...
 
@@ -541,14 +548,14 @@
           <section data-markdown>
             <textarea data-template>
             ### Callable
-            <br />
+
             Para definir _callbacks_, funciones que se pasan como parámetro.
 
             ```python
             Callable[[int, int], str]
             Callable[..., str]
             ```
-            <br />
+
             ```python
             def feeder(get_next_item: Callable[[], str]) -> None:
                 pass
@@ -580,15 +587,15 @@
             concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" cannot be "object"
             ```
 
-            <small>NOTA: Revisar el [PEP 484](https://www.python.org/dev/peps/pep-0484/#id26) porque tienen algo más de miga: propiedades [covariancia, contravariancia e invariancia](https://es.wikipedia.org/wiki/Covariancia_y_contravariancia_(ciencias_de_la_computaci%C3%B3n)), bound...<small>
+            <small>NOTA: No te enrolles contando lo de _bound_, ni lo de las propiedades [covariancia, contravariancia e invariancia](https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29) de los tipos complejos, que no te va a dar tiempo. Más info en [PEP 484](https://www.python.org/dev/peps/pep-0484/#id26). <small>
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
             ### Generic Clases
-            <br />
-            Son clases con uno o más tipos arbitrarios (TypeVar) que serán concretados con su uso.
-            <br />_&rarr; (Las colecciones que hemos visto con anterioridad son 'generci classes')_
+
+            Son clases con uno o más tipos arbitrarios (TypeVar) que serán asignados con su instanciación.
+
             ```python
             from typing import Generic, List, TypeVar
 
@@ -609,32 +616,32 @@
 
             stacki = Stack[int]()
             stacki.push(1)
-            stacki.push('n')  # Error:  Argument 1 to "push" of "Stack" has incompatible type "str"; expected "int"
+            stacki.push('n')
+            # ^ Error:  Argument 1 to "push" of "Stack" has incompatible
+            #           type "str"; expected "int"
             ```
             </textarea>
           </section>
           <section data-markdown>
             <textarea data-template>
             ### Y mucho, mucho más...
-            <br />
-            - Ficheros stub (para anotaciones de bibliotecas de terceros, p. e.)
-            - Casting
-            - Sobrecarga
-              ```python
-              @overload
-              def overloaded_func(self, i: int) -> int: ...
-                pass
 
-              @overload
-              def overloaded_func(self, s: slice, d: str) -> bytes: ...
-                pass
-              ```
-            - Tipos para IO
-            - Tipado por RegEx
-            - Metaprogramacion
-            - Protocols ([PEP 544](https://www.python.org/dev/peps/pep-0544/))
-            - Cómo desactivar el _type cheker_
-            - ...
+            &rarr; Ficheros stub (anotaciones de bibliotecas de terceros, p. e.)<br />
+            &rarr; Casting<br />
+            &rarr; Sobrecarga
+
+               ```python
+               @overload
+               def overloaded_func(self, i: int) -> int: ...
+
+               @overload
+               def overloaded_func(self, f: float, s: str) -> bytes: ...
+               ```
+            &rarr; Tipos para IO<br />
+            &rarr; Tipado por RegEx<br />
+            &rarr; Metaprogramacion<br />
+            &rarr; Protocols ([PEP 544](https://www.python.org/dev/peps/pep-0544/))<br />
+            &rarr; ...
             </textarea>
           </section>
         </section>
@@ -642,13 +649,13 @@
         <section data-markdown>
           <textarea data-template>
             ## Conclusiones
-            <br />
+
             - Las anotaciones mejoran enormemente el proceso de desarrollo y la calidad del código.
               - Hacen que el código sea más legible.
               - Ayudan a detectar errores antes del _runtime_.
               - Reducen el número de tests y de asserts.
             - Mejorar nuestros editores y otras herramientas de análisis de código.
-              - incluso mejorar la performance del código ¿en un futuro no muy lejano? (Cython, Pyston, MypyC...)
+              - incluso puede llegar a mejorar la performance del código ¿en un futuro no muy lejano? (Cython, Pyston, MypyC...)
             - Los `type hints` son poco invasibos y _pythonicos_
             - [PEP 20](https://www.python.org/dev/peps/pep-0020/) _**"Explicito es mejor que implícito"**_
           </textarea>
@@ -720,6 +727,7 @@
     <script src="lib/js/jquery-3.3.1.min.js"></script>
     <script src="js/reveal.js"></script>
 
+    <!-- Add header and footer to every slide
     <script type="text/javascript">
       // 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
       var header = $('#header').html();
@@ -732,6 +740,7 @@
         $('div.reveal').append(header);
       }
     </script>
+    -->
 
     <script>
       // More info about config & dependencies:
@@ -741,7 +750,7 @@
         // Size
         // 16:9 FullHD
         width: 1920,
-        width: "70%",
+        width: "90%",
         height: 1080,
         // 16:9
         //width: 1280,

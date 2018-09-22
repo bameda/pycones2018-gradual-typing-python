@@ -291,17 +291,22 @@ body {
 
 .reveal ul {
   display: block;
-  margin: 0 0 0 1em; }
+  margin: 0 0 0 1em;
+  padding-left: 1em; }
+  .reveal ul ul {
+    margin: 0; }
 
 .reveal ol {
   display: block;
   margin-left: 5rem; }
 
 .reveal pre {
-  width: 100%; }
+  width: 100%;
+  margin-top: 4rem; }
   .reveal pre code {
-    font-size: 2rem;
-    line-height: 2.5rem; }
+    font-size: 1.75rem;
+    line-height: 2rem;
+    max-height: 800px; }
 
 .reveal a {
   font-weight: 600; }
@@ -334,11 +339,11 @@ body {
     min-width: 35%;
     padding-right: 4em; }
   .reveal .cover .content {
-    min-width: 70%; }
+    min-width: 60%; }
 
 .reveal .whoiam {
   text-align: left;
-  left: 200px; }
+  left: 100px; }
   .reveal .whoiam h3 {
     background-color: unset;
     font-weight: 600; }
