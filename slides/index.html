@@ -110,615 +110,539 @@
           -->
         </section>
 
-        <section data-markdown>
-          <textarea data-template>
-            #### Typing
+        <section>
+          <h3>Typing</h3>
+          <p>Indicaer el tipo de las "cosas".</p>
+          <br /><br />
+          <h3>Type cheker</h3>
+          <p>Programa encargado de comprobar y aplicar las restricciones de tipos en un código fuente dado.</p>
+          <ul>
+            <li>- Puede actuar en la fase de compilado &rarr; _static type cheker_.</li>
+            <li>- Pude actuar en runtime &rarr; _dynamic type cheker_.</li>
+          </ul>
+        </section>
 
-            Indicaer el tipo de las "cosas".
+        <section>
+          <section>
+            <h2>Static typing</h2>
+            <br /><br />
+            <img src="img/slides/static-dynamic/static_typing.png" class="plain"
+                 style="height: 28rem; float: right; margin-left: 2rem;" alt="" />
+            <p>Las variables poseen un tipo asociado, normalmente explicito aunque a veces inplicito (inferido).</p>
+            <p>La comprobación de tipos se realiza en tiempo de compilación para poder garantizarlo.</p>
+            <br /><br />
+            <ul><li>- Ejemplos: Java, Haskell, Julia, Rust, C...</li></ul>
+          </section>
+          <section>
+            <h4>👍</h4>
+            <ul>
+              <li>Detección temprana de errores de tipo.</li>
+              <li>Ahorro de comprobaciones manuales de tipo.</li>
+              <li>Ahorro de tests.</li>
+              <li>El código está mejor documentado.</li>
+              <li>El compilador puede realizar optimizaciones de código.</li>
+            </ul>
+            <br /><br />
+            <h4>👎</h4>
+            <ul>
+              <li>Incremento de tiempo en el proceso <em>editar-compilar-ejecutar-depurar</em>.</li>
+              <li>No realizan todas las verificaciones de tipos (downcasting).</li>
+            </ul>
+          </section>
+        </section>
 
+        <section>
+          <section>
+            <h2>Dynamic typing</H2>
+            <br /><br />
+            <img src="img/slides/static-dynamic/dynamic_typing.png" class="plain"
+                 style="height: 28rem; float: right; margin-left: 2rem;" alt="" />
+            <p>Las variables no poseen un tipo asociado, si no que lo obtienen del valor que contienen en cada momento.</p>
+            <p>La comprobación de tipos se realiza en tiempo de ejecución.</p>
+            <br /><br />
+            <ul><li>- Ejemplos: Python, Perl, Ruby, ¿Lisp?, Javascript...</li></ul>
+          </section>
+
+          <section>
+            <h4>👍</h4>
+            <ul>
+              <li>Facilita el proceso de codificación.</li>
+              <li>Menor tiempo en el proceso editar-compilar-ejecutar-depurar.</li>
+              <li>Flexibilidad para adaptarse a los cambios de requisitos.</li>
+              <li>Facilita la gestión de situaciones en la que el típo sólo se conoce en tiempo de ejecución.</li>
+              <li>Ideal para programación interactiva.</li>
+            </ul>
+            <br /><br />
+            <h4> 👎</h4>
+            <ul>
+              <li>Hay errores de tipo que no se detectan hasta su ejecución.</li>
+              <li>Hay que documentar más.</li>
+              <li>Hay que añadir comprobaciones manuales de tipos.</li>
+              <li>Hay que testear más.</li>
+              <li>En proyectos grandes resulta dificil entender el código.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h4> ¿Qué hace este código?</h4>
+            <pre><code class="python" data-trim data-noescape>
+def validate_entries(entries):
+    for entry in entries:
+        entry.data.validate()
+            </code></pre>
             <br />
-
-            #### Type cheker
-
-            Programa encargado de comprobar y aplicar las restricciones de tipos en un código fuente dado.
-
-            - Puede actuar en la fase de compilado &rarr; _static type cheker_.
-            - Pude actuar en runtime &rarr; _dynamic type cheker_.
-          </textarea>
-        </section>
-
-        <section>
-          <section data-markdown>
-            <textarea data-template>
-              ## Static typing
-              <img src="img/slides/static-dynamic/static_typing.png" class="plain"
-                   style="height: 28rem; float: right; margin-left: 2rem;" alt="" />
-              <br />
-              Las variables poseen un tipo asociado, normalmente explicito aunque a veces inplicito (inferido).
-
-              La comprobación de tipos se realiza en tiempo de compilación para poder garantizarlo.
-
-              <br />
-              - Ejemplos: Java, Haskell, Julia, Rust, C...
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              #### 👍
-
-              - Detección temprana de errores de tipo.
-              - Ahorro de comprobaciones manuales de tipo.
-              - Ahorro de tests.
-              - El código está mejor documentado.
-              - El compilador puede realizar optimizaciones de código.
-
-              <br />
-              #### 👎
-
-              - Incremento de tiempo en el proceso editar-compilar-ejecutar-depurar.
-              - No realizan todas las verificaciones de tipos (downcasting).
-            </textarea>
+            <ul class="fragment"><li>`grep validate` y a buscar su definición &rarr; 154 definiciones</li>
+              <ul class="fragment"><li>debemos averiguar el típo del objeto de `validate()`</li>
+                <ul class="fragment"><li>debemos averiguar el tipo de `entry.data`</li>
+                  <ul class="fragment"><li>para ello debemos saber qué es `entry`</li>
+                    <ul class="fragment"><li>pero ¿qué es `entries`? ¿sera un...</li>
+                      <ul class="fragment"><li>..._parámetro_? &rarr; busca la llamada y...</li>
+                      <li>..._valor de retorno de una función_? &rarr; busca la definicion de la función y...</li>
+                      <li>..._un atributo de clase_? &rarr; busca la definición de la clase y...</li>
+            </ul></ul></ul></ul></ul></ul>
           </section>
         </section>
 
         <section>
-          <section data-markdown>
-            <textarea data-template>
-              ## Dynamic typing
-
-              <img src="img/slides/static-dynamic/dynamic_typing.png" class="plain"
-                   style="height: 28rem; float: right; margin-left: 2rem;" alt="" />
-              <br />
-              Las variables no poseen un tipo asociado, si no que lo obtienen del valor que contienen en cada momento.
-
-              La comprobación de tipos se realiza en tiempo de ejecución.
-
-              <br />
-              - Ejemplos: Python, Perl, Ruby, ¿Lisp?, Javascript...
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              #### 👍
-
-              - Facilita el proceso de codificación.
-              - Menor tiempo en el proceso editar-compilar-ejecutar-depurar.
-              - Flexibilidad para adaptarse a los cambios de requisitos.
-              - Facilita la gestión de situaciones en la que el típo sólo se conoce en tiempo de ejecución.
-              - Ideal para programación interactiva.
-
-              <br />
-              #### 👎
-
-              - Hay errores de tipo que no se detectan hasta su ejecución.
-              - Hay que documentar más.
-              - Hay que añadir comprobaciones manuales de tipos.
-              - Hay que testear más.
-              - En proyectos grandes resulta dificil entender el código.
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              #### ¿Qué hace este código?
-
-              ```python
-              def validate_entries(entries):
-                  for entry in entries:
-                      entry.data.validate()
-              ```
-              - `grep validate` y a buscar su definición &rarr; 154 definiciones
-                - debemos averiguar el típo del objeto de `validate()`
-                  - debemos averiguar el tipo de `entry.data`
-                    - para ello debemos saber qué es `entry`
-                      - pero ¿qué es `entries`? ¿sera un...
-                        - ..._parámetro_? &rarr; busca la llamada y...
-                        - ..._valor de retorno de una función_? &rarr; busca la definicion de la función y...
-                        - ..._un atributo de clase_? &rarr; busca la definición de la clase y...
-            </textarea>
-          </section>
-        </section>
-
-        <section>
-          <section data-markdown>
-            <textarea data-template>
-              ## Gradual typing
-
-              [_"Gradual Typing for Functional Languages"_ por Jeremy G. Siek y Walid Taha (2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
-
-              <br />
-
-              Se permite tanto _static typing_ como _dynamic typing_ en el código.
-
-              Utilíza el que quieras cuando quieras.
-
-              <br />
-              - Ejemplos: TypeScript, Groovy, Clojure, Lua, (annotated) Python,...
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              #### Definición informal <small>(1 de 2)</small>
-
-              Entre dos tipos, `t1` y `t2`, existe lo que se conoce como _**relacion de consistencia**_
-
-                - Similar a la relacion descrita en teoría de herencia de clases (~ _es-subtipo-de_)
-                - No simétrica
-                - No transitiva si el tipo `Any` está involucrado
-
-              <br />
-              _El valor `a` [`t1`] se puede asignar a la variable `x` [`t2`] si `t1` es un subtipo de `t2`_
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              #### Definición informal <small>(2 de 2)</small>
-              Hay 3 reglas para conocer la consistencia:
-
-              - Un tipo `t1` es consistente con un tipo `t2` si `t1` es un subtipo de `t2` (Y no al contrario).
-              - `Any` es consistente con cualquier typo (`Any` no es un subtipo de cualquier tipo).
-              - Cualquier tipo es consistente con `Any` (cualquier tipo no es un subtipo de `Any`).
-
-              ```python
-              class Employee: pass
-              class Manager(Employee): pass
-
-              worker = Employee()     # tipo: Employee
-              worker = Manager()      # OK!: regla 1
-              boss = Manager()        # tipo: Manager
-              boss = Employee()       # Error
-
-              something: Any = 1      # tipo: Any
-              worker = something      # OK: regla 2
-              something = boss        # OK: regla 3
-              ```
-            </textarea>
-          </section>
-        </section>
-
-        <section>
-          <section data-markdown class="section-cover blue">
-            <textarea data-template>
-              # Gradual typing en Python
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              ## Finalidad
-              <br />
-
-              #### ✔
-              - Mejorar la legibilidad del código a los humanos.
-              - Sintaxis estandar para la anotación de tipos.
-              - Facilitar el análisis estático y la refactorización del código python.
-              <br />
-
-              #### ✖
-              - Chequeo de tipos en _runtime_.
-              - Optimización de rendimiento, basado en el tipado.
-            </textarea>
-          </section>
-
-          <section data-markdown>
-            <textarea data-template>
-              ### La historia... y los PEPs
-
-                - **1998 - 2004:**
-                  - [Debate sobre interfaces](https://www.python.org/community/sigs/retired/types-sig/)
-                  - Ponencia de Guido con ejemplos de _function annotations_
-                  - Post en Artima, [Adding Optional Static Typing to Python](https://www.artima.com/weblogs/viewpost.jsp?thread=85551)
-                - **2006:** Function Annotation [PEP 3107](https://www.python.org/dev/peps/pep-3107/) _(Python 3.0)_
-                - **2014:** Type Hints [PEP 484](https://www.python.org/dev/peps/pep-0484/) _(Python 3.5)_
-                  - Literature overview for Type Hint [PEP 482](https://www.python.org/dev/peps/pep-0482/)
-                  - Theory of Type Hint [PEP 483](https://www.python.org/dev/peps/pep-0483/)
-                  - Implementa el módulo [typing](https://docs.python.org/3.7/library/typing.html) (en un [estado provisional](https://github.com/python/typing), sin introducir cambios en el core del lenguaje).
-                - **2016 - hoy:**
-                  - Syntax for variable annotation [PEP 526](https://www.python.org/dev/peps/pep-0526/) _(Python 3.6)_
-                  - Core support for typing module and generic types [PEP 560](https://www.python.org/dev/peps/pep-0560/) _(Python 3.7)_
-                  - Postponed Evaluation of Annotations [PEP 563](https://www.python.org/dev/peps/pep-0563/) _(Python 3.7)_
-                  - Protocol [PEP 544](https://www.python.org/dev/peps/pep-0544/) _(Draft)_
-            </textarea>
-          </section>
-        </section>
-
-        <section>
-          <section data-markdown class="section-cover blue">
-            <textarea data-template>
-              # Type Hinting syntax en Python
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Primitivas
-              <br />
-
-              ```python
-              int         # integer
-              float       # floating point number
-              complex     # complex number
-                          # (complex ~ float ~ int)
-              bool        # boolean value
-              str         # unicode string
-              bytes       # 8-bit string
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Variables
-
-              El tipado de las variables puede ser implicito
-
-              ```python
-              num = 3.4
-              ```
-
-              O explicito
-
-              ```python
-              num: float
-              num: float = 3.4
-
-              l: List[int]
-              l: List[int] = []
-              ```
-              <br />
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Any
-
-              ```python
-              from typing import Any
-
-              something: Any = 1
-              something = 's'
-              something = False
-              something = None
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Funciones y métodos
-
-              ```python
-              def foo(a: 'x', b: 5 + 6, c: list = [],
-                      *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
-                pass
-
-              foo.__annotations__
-
-              # Out: {'a': 'x', 'b': 11, 'c': list,
-              #       'd': 'an arg', 'e': 'a kwarg', 'return': 9}
-              ```
-              <br />
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Clases
-
-              - Las clases de Python son tipos (las instancias de sus subclases son consistentes)
-              - En python 3.7 se arregla el problema con las _forward references_ ([PEP 563](https://www.python.org/dev/peps/pep-0563/))
-              - Ahora encontraras _type errors_ si accedes a métodos que no existen.
-                <br />&rarr;  No más errores en _runtime_ por _typos_!!
-
-              ```python
-              class Foo:
-                  def do_something(self):
-                      pass
-
-              class Bar:
-                  def run(self, x: Foo):
-                      x.od_something()
-                      # ^ Error: "Foo" has no attribute "od_something";
-                      #          maybe "do_something"?
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ### Union <small>(1 de 2)</small>
-
-            `Union` sirve para representar un set de tipos válidos.
-
-            ```python
-            from typing import Union
-
-            def mul(n: int, m: Union[str, int]):
-                return n * m
-
-            mul(5, 1)     # -> 5
-            mul(5, '*')   # -> *****
-            mul(5, 2.0)
-            # ^ Error:  Argument 2 to "mul" has incompatible type "float";
-            #           expected "Union[str, int]"
-            ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ### Union <small>(2 de 2)</small>
-
-            ```python
-            from typing import Any, Optional, Union
-
-            assert Union[str] == str
-            assert Union[Union[int, str], float] == Union[int, str, float]
-            assert Union[str, str, int] == Union[str, int]
-            assert Union[int, str] == Union[str, int]
-            assert Union[str, int, None] == Optional[Union[str, int]]
-            ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ### Optional
-
-            `Optional` sirve para indicar que ese valor puede ser `None`
-
-            ```python
-            from typing import Optional
-
-            z: Optional[str] = None
-            z = 'text'
-            ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Collections <small>(1 de 4)</small>
-
-              El módule `typing` contiene _generic types_ de las colecciones más comunes.
-
-              ```python
-              from typing import List, Dict, Set, Tuple, Deque
-
-              List[str]       # list of str objects
-              Dict[str, int]  # dictionary from str to int
-              Set[str]        # set of str objects
-              Tuple[int, int, int]  # a 3-tuple of ints
-              Tuple[int, ...] # a variable length tuple of ints
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Collections <small>(2 de 4)</small>
-
-              ```python
-              from typing import List, Set, NamedTuple
-
-              list_a: List[float]
-              list_a = [1, 1.0, 2.0]
-              list_a = ['a', 1.0, 2.0]
-              # ^ Error: List item 0 has incompatible type "str"; expected "float"
-
-              list_b: List[Union[float, str]]
-              list_b = [1, 1.0, 'a']
-
-              set_a: Set[int] = {1, 2, 3}
-              set_a = {1, 2, 'a'}
-              # ^ Error: Argument 3 to <set> has incompatible type "str"; expected "int"
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Collections <small>(3 de 4)</small>
-
-              Tambien hay `namedtuples()` con la nueva sintaxis
-
-              ```python
-              from typing import NamedTuple
-
-              class Employee(NamedTuple):
-                  """Represents an employee."""
-                  name: str
-                  id: int = 3
-
-                  def __repr__(self) -> str:
-                      return f'<Employee {self.name}, id={self.id}>'
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-              ### Collections <small>(4 de 4)</small>
-
-              Tambien están las _abstract collections_, definidas en `collections.abc` (útiles para el _duck typing_).
-
-              ```python
-              from typing import Mapping, MutableMapping, Sequence, MutableSequence,...
-
-              Mapping[str, str]        # a mapping from strings to strings
-              MutableMapping[str, str] # a mutable mapping from strings to strings
-
-              Sequence[int]            # a sequence of integers
-              MutableSequence[int]     # a mutable sequence of integers
-              ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ### Callable
-
-            Para definir _callbacks_, funciones que se pasan como parámetro.
-
-            ```python
-            Callable[[int, int], str]
-            Callable[..., str]
-            ```
-
-            ```python
-            def feeder(get_next_item: Callable[[], str]) -> None:
-                pass
-
-
-            def async_query(
-              on_success: Callable[[int], None],
-              on_error: Callable[[int, Exception], None]
-            ) -> None:
-                pass
-            ```
-            </textarea>
-          </section>
-          <section data-markdown>
-            <textarea data-template>
-            ### TypeVar
-
-            Sirven para declarar variables de tipo
+          <section>
+            <h2>Gradual typing</h2>
+            <br /><br />
+            <blockquote>
+              <em><a href="http://scheme2006.cs.uchicago.edu/13-siek.pdf">"Gradual Typing for Functional Languages"</a></em><br />
+              por Jeremy G. Siek y Walid Taha <em>(2006)</em>
+            </blockquote>
             <br />
-            ```python
-            T = TypeVar('T')       # can be anything
-            AnyStr = TypeVar('AnyStr', str, bytes)  # can be str or bytes
-
-            def concat(x: AnyStr, y: AnyStr) -> AnyStr:
-                return x + y
-
-            concat('aaa', 'bbb')
-            concat(b'aaa', b'bbb')
-            concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" cannot be "object"
-            ```
-
-            <small>NOTA: No te enrolles contando lo de _bound_, ni lo de las propiedades [covariancia, contravariancia e invariancia](https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29) de los tipos complejos, que no te va a dar tiempo. Más info en [PEP 484](https://www.python.org/dev/peps/pep-0484/#id26). <small>
-            </textarea>
+            <p>Se permite tanto <em>static typing</em> como <em>dynamic typing</em> en el código.</p>
+            <p>Utilíza el que quieras cuando quieras.</p>
+            <br /><br />
+            <ul><li>Ejemplos: TypeScript, Groovy, Clojure, Lua, (annotated) Python,...</li></ul>
           </section>
+
           <section data-markdown>
             <textarea data-template>
-            ### Generic Clases
-
-            Son clases con uno o más tipos arbitrarios (TypeVar) que serán asignados con su instanciación.
-
-            ```python
-            from typing import Generic, List, TypeVar
-
-            Z = TypeVar('Z')
-
-            class Stack(Generic[Z]):
-                def __init__(self) -> None:
-                    self.items: List[Z] = []
-
-                def push(self, item: Z) -> None:
-                    self.items.append(item)
-
-                def pop(self) -> Z:
-                    return self.items.pop()
-
-                def empty(self) -> bool:
-                    return not self.items
-
-            stacki = Stack[int]()
-            stacki.push(1)
-            stacki.push('n')
-            # ^ Error:  Argument 1 to "push" of "Stack" has incompatible
-            #           type "str"; expected "int"
-            ```
+              <h4>Definición informal <small>(1 de 2)</small></h4>
+              <br /><br />
+              <p>Entre dos tipos, <code>t1</code> y <code>t2</code>, existe lo que se conoce como <strong><em>relacion de consistencia</em></strong></p>
+              <ul>
+                <li>Similar a la relacion descrita en teoría de herencia de clases (~ <em>es-subtipo-de</em>).</li>
+                <li>No simétrica.</li>
+                <li>No transitiva si el tipo <code>Any</code> (<em>dynamic</em>) está involucrado.</li>
+              </ul>
+              <br />
+              <blockquote>
+                El valor <code>a<code> [<code>t1<code>] se puede asignar a la variable <code>x<code> [<code>t2<code>] si <code>t1<code> es un subtipo de <code>t2<code>
+              </blockquote>
             </textarea>
           </section>
-          <section data-markdown>
+
+          <section>
+            <h4>Definición informal <small>(2 de 2)</small></h4>
+            <p>Hay 3 reglas para conocer la consistencia:</p>
+            <ul>
+              <li>Un tipo <code>t1</code> es consistente con un tipo <code>t2</code> si <code>t1</code> es un subtipo de <code>t2</code> (Y no al contrario).</li>
+              <li><code>Any</code> es consistente con cualquier typo (<code>Any</code> no es un subtipo de cualquier tipo).</li>
+              <li>Cualquier tipo es consistente con <code>Any</code> (cualquier tipo no es un subtipo de <code>Any</code>).</li>
+            </ul>
+            <pre><code class="python" data-trim data-noescape>
+class Employee: pass
+class Manager(Employee): pass
+
+worker = Employee()     # tipo: Employee
+worker = Manager()      # OK!: regla 1
+boss = Manager()        # tipo: Manager
+boss = Employee()       # Error
+
+something: Any = 1      # tipo: Any
+worker = something      # OK: regla 2
+something = boss        # OK: regla 3
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section class="section-cover blue">
+            <h1>Gradual typing<br />en Python</h1>
+          </section>
+
+          <section>
+            <h2>Finalidad</h2>
+            <br /><br />
+            <h3>✔</h3>
+            <ul>
+              <li>Mejorar la legibilidad del código a los humanos.</li>
+              <li>Sintaxis estandar para la anotación de tipos.</li>
+              <li>Facilitar el análisis estático y la refactorización del código python.</li>
+            </ul>
+            <br /><br />
+            <h3>✖</h3>
+            <ul>
+              <li>Chequeo de tipos en <em>runtime</em>.</li>
+              <li>Optimización de rendimiento, basado en el tipado.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>La historia... y los PEPs</h3>
+            <ul>
+              <li><strong>1998 - 2004:</strong></li>
+              <ul>
+                <li><a href="https://www.python.org/community/sigs/retired/types-sig/">Debate sobre interfaces</a></li>
+                <li>Ponencia de Guido con ejemplos de <em>function annotations</em></li>
+                <li>Post en Artima, <a href="https://www.artima.com/weblogs/viewpost.jsp?thread=85551">Adding Optional Static Typing to Python</a></li>
+              </ul>
+              <li><strong>2006:</strong> Function Annotation <a href="https://www.python.org/dev/peps/pep-3107/">PEP 3107</a> <em>(Python 3.0)</em></li>
+              <li><strong>2014:</strong> Type Hints <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> <em>(Python 3.5)</em></li>
+              <ul>
+                <li>Literature overview for Type Hint <a href="https://www.python.org/dev/peps/pep-0482/">PEP 482</a></li>
+                <li>Theory of Type Hint <a href="https://www.python.org/dev/peps/pep-0483/">PEP 483</a></li>
+                <li>Implementa el módulo <a href="https://docs.python.org/3.7/library/typing.html">typing</a><br />(en un <a href="https://github.com/python/typing">estado provisional</a>, sin introducir cambios en el core del lenguaje).</li>
+              </ul>
+              <li><strong>2016 - hoy:</strong></li>
+              <ul>
+                <li>Syntax for variable annotation <a href="https://www.python.org/dev/peps/pep-0526/">PEP 526</a> <em>(Python 3.6)</em></li>
+                <li>Core support for typing module and generic types <a href="https://www.python.org/dev/peps/pep-0560/">PEP 560</a> <em>(Python 3.7)</em></li>
+                <li>Postponed Evaluation of Annotations <a href="https://www.python.org/dev/peps/pep-0563/">PEP 563</a> <em>(Python 3.7)</em></li>
+                <li>Protocol <a href="https://www.python.org/dev/peps/pep-0544/">PEP 544</a> <em>(Draft)</em></li>
+              </ul>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section class="section-cover blue">
+            <h1>Type Hinting syntax<br />en Python</h1>
+          </section>
+          <section>
+            <h3>Primitivas</h3>
+            <br />
+            <pre><code class="python" data-trim data-noescape>
+int         # integer
+float       # floating point number
+complex     # complex number
+            # (complex ~ float ~ int)
+bool        # boolean value
+str         # unicode string
+bytes       # 8-bit string
+            </code></pre>
+          </section>
+          <section>
+            <h3>Variables</h3>
+            <p>El tipado de las variables puede ser implicito</p>
+            <pre><code class="python" data-trim data-noescape>
+num = 3.4
+            </code></pre>
+            <br />
+            <p>O explicito</p>
+            <pre><code class="python" data-trim data-noescape>
+num: float = 3.4
+l: List[int] = []
+            </code></pre>
+            <br />
+          </section>
+          <section>
+            <h3>Any</h3>
+            <pre><code class="python" data-trim data-noescape>
+from typing import Any
+
+something: Any = 1
+something = 's'
+something = False
+something = None
+            </code></pre>
+          </section>
+          <section>
+            <h3>Funciones y métodos</h3>
+
+            <pre><code class="python" data-trim data-noescape>
+def foo(a: 'x', b: 5 + 6, c: list = [],
+        *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
+  pass
+
+foo.__annotations__
+
+# Out: {'a': 'x', 'b': 11, 'c': list,
+#       'd': 'an arg', 'e': 'a kwarg', 'return': 9}
+            </code></pre>
+          </section>
+          <section>
+            <h3>Clases</h3>
+            <ul>
+              <li>Las clases de Python son tipos (las instancias de sus subclases son consistentes)</li>
+              <li>En python 3.7 se arregla el problema con las <em>forward references</em> (<a href="https://www.python.org/dev/peps/pep-0563/">PEP 563</a>)</li>
+              <li>Ahora encontraras <em>type errors</em> si accedes a métodos que no existen.
+                  <br />&rarr;  No más errores en <em>runtime</em> por <em>typos</em>!!</li>
+            </ul>
+            <pre><code class="python" data-trim data-noescape>
+class Foo:
+    def do_something(self):
+        pass
+
+class Bar:
+    def run(self, x: Foo):
+        x.od_something()
+        # ^ Error: "Foo" has no attribute "od_something";
+        #          maybe "do_something"?
+            </code></pre>
+          </section>
+          <section>
+            <h3>Union <small>(1 de 2)</small></h3>
+            <p><code>Union</code> sirve para representar un set de tipos válidos.</p>
+            <pre><code class="python" data-trim data-noescape>
+from typing import Union
+
+def mul(n: int, m: Union[str, int]):
+    return n * m
+
+mul(5, 1)     # -> 5
+mul(5, '*')   # -> *****
+mul(5, 2.0)
+# ^ Error:  Argument 2 to "mul" has incompatible type "float";
+#           expected "Union[str, int]"
+            </code></pre>
+          </section>
+          <section>
+            <h3>Union <small>(2 de 2)</small></h3>
+
+            <pre><code class="python" data-trim data-noescape>
+from typing import Any, Optional, Union
+
+assert Union[str] == str
+assert Union[Union[int, str], float] == Union[int, str, float]
+assert Union[str, str, int] == Union[str, int]
+assert Union[int, str] == Union[str, int]
+assert Union[str, int, None] == Optional[Union[str, int]]
+            </code></pre>
+          </section>
+          <section>
+            <h3>Optional</h3>
+            <p><code>Optional</code> sirve para indicar que ese valor puede ser <code>None</code>.</p>
+            <pre><code class="python" data-trim data-noescape>
+from typing import Optional
+
+z: Optional[str] = None
+z = 'text'
+            </code></pre>
+          </section>
+          <section>
+            <h3>Collections <small>(1 de 4)</small></h3>
+            <p>El módule <code>typing</code> contiene <em>generic types</em> de las colecciones más comunes.</p>
+            <pre><code class="python" data-trim data-noescape>
+from typing import List, Dict, Set, Tuple, Deque
+
+List[str]       # list of str objects
+Dict[str, int]  # dictionary from str to int
+Set[str]        # set of str objects
+Tuple[int, int, int]  # a 3-tuple of ints
+Tuple[int, ...] # a variable length tuple of ints
+            </code></pre>
+          </section>
+          <section>
+            <h3>Collections <small>(2 de 4)</small></h3>
+            <pre><code class="python" data-trim data-noescape>
+from typing import List, Set, NamedTuple
+
+list_a: List[float]
+list_a = [1, 1.0, 2.0]
+list_a = ['a', 1.0, 2.0]
+# ^ Error: List item 0 has incompatible type "str"; expected "float"
+
+list_b: List[Union[float, str]]
+list_b = [1, 1.0, 'a']
+
+set_a: Set[int] = {1, 2, 3}
+set_a = {1, 2, 'a'}
+# ^ Error: Argument 3 to <set> has incompatible type "str"; expected "int"
+            </code></pre>
+          </section>
+          <section>
+            <h3>Collections <small>(3 de 4)</small></h3>
+            <p>Tambien hay <code>namedtuples()</code> con la nueva sintaxis.</p>
+            <pre><code class="python" data-trim data-noescape>
+from typing import NamedTuple
+
+class Employee(NamedTuple):
+    """Represents an employee."""
+    name: str
+    id: int = 3
+
+    def __repr__(self) -> str:
+        return f'<Employee {self.name}, id={self.id}>'
+            </code></pre>
+          </section>
+          <section>
+            <h3>### Collections <small>(4 de 4)</small></h3>
+
+            <p>Tambien están las <em>abstract collections</em>, definidas en <code>collections.abc</code> (útiles para el <em>duck typing</em>).</p>
+
+            <pre><code class="python" data-trim data-noescape>
+from typing import Mapping, MutableMapping, Sequence, MutableSequence,...
+
+Mapping[str, str]        # a mapping from strings to strings
+MutableMapping[str, str] # a mutable mapping from strings to strings
+
+Sequence[int]            # a sequence of integers
+MutableSequence[int]     # a mutable sequence of integers
+            </code></pre>
+          </section>
+          <section>
+            <h3>Callable</h3>
+            <p>Para definir <em>callbacks</em>, funciones que se pasan como parámetro.</p>
+            <pre><code class="python" data-trim data-noescape>
+Callable[[int, int], str]
+Callable[..., str]
+            </code></pre>
+            <pre><code class="python" data-trim data-noescape>
+def feeder(get_next_item: Callable[[], str]) -> None:
+    pass
+
+
+def async_query(
+  on_success: Callable[[int], None],
+  on_error: Callable[[int, Exception], None]
+) -> None:
+    pass
+            </code></pre>
+          </section>
+          <section>
+            <h3>TypeVar</h3>
+            <p>Sirven para declarar variables de tipo.</p>
+            <pre><code class="python" data-trim data-noescape>
+T = TypeVar('T')       # can be anything
+AnyStr = TypeVar('AnyStr', str, bytes)  # can be str or bytes
+
+def concat(x: AnyStr, y: AnyStr) -> AnyStr:
+    return x + y
+
+concat('aaa', 'bbb')
+concat(b'aaa', b'bbb')
+concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" cannot be "object"
+            </code></pre>
+
+            <small>NOTA: No te enrolles contando lo de <code>bound</code>, ni lo de las propiedades <em><a href="https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29">covariancia, contravariancia e invariancia</a></em><br /> de los tipos complejos, que no te va a dar tiempo. Más info en <a href="https://www.python.org/dev/peps/pep-0484/#id26">PEP 484</a>.</small>
+          </section>
+          <section>
+            <h3>Generic Clases</h3>
+            <p>Son clases con uno o más tipos arbitrarios (TypeVar) que serán asignados con su instanciación.</p>
+            <pre><code class="python" data-trim data-noescape>
+from typing import Generic, List, TypeVar
+
+Z = TypeVar('Z')
+
+class Stack(Generic[Z]):
+    def __init__(self) -> None:
+        self.items: List[Z] = []
+
+    def push(self, item: Z) -> None:
+        self.items.append(item)
+
+    def pop(self) -> Z:
+        return self.items.pop()
+
+    def empty(self) -> bool:
+        return not self.items
+
+stacki = Stack[int]()
+stacki.push(1)
+stacki.push('n')
+# ^ Error:  Argument 1 to "push" of "Stack" has incompatible
+#           type "str"; expected "int"
+            </code></pre>
+          </section>
+          <section>
+            <h3>Y mucho, mucho más...</h3>
+            <ul>
+              <li>Ficheros stub (anotaciones de bibliotecas de terceros, p. e.)</li>
+              <li>Casting</li>
+              <li>Sobrecarga
+                <pre style="margin-top: 0;"><code class="python" data-trim data-noescape>
+@overload
+def overloaded_func(self, i: int) -> int: ...
+
+@overload
+def overloaded_func(self, f: float, s: str) -> bytes: ...
+                </code></pre></li>
+              <li>Tipos para IO</li>
+              <li>Tipado por RegEx</li>
+              <li>Metaprogramacion</li>
+              <li>Protocols (<a href="https://www.python.org/dev/peps/pep-0544/">PEP 544</a>)</li>
+              <li>...</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <h2>Conclusiones</h2>
+          <ul>
+            <li>Las anotaciones mejoran enormemente el proceso de desarrollo y la calidad del código.
+              <ul><li>Hacen que el código sea más legible.</li>
+              <li>Ayudan a detectar errores antes del _runtime_.</li>
+              <li>Reducen el número de tests y de asserts.</li></ul></li>
+            <li>Mejorar nuestros editores y otras herramientas de análisis de código.
+              <ul><li>incluso puede llegar a mejorar la performance del código<br /> ¿en un futuro no muy lejano? <em>(Cython, Pyston, MypyC...)</em></li></ul></li>
+            <li>Los <code>type hints</code> son poco invasibos y <em>pythonicos</em></li>
+            <li><a href="https://www.python.org/dev/peps/pep-0020/">PEP 20</a> <strong><em>"Explicito es mejor que implícito"</em></strong></li>
+          </ul>
+          </textarea>
+        </section>
+        <section class="section-cover orange">
+          <h1>Muchas gracias!!</h1>
+        </section>
+        <section>
+          <section data-markdown class="bibliography">
             <textarea data-template>
-            ### Y mucho, mucho más...
+              ### Bibliografía <small>(1 de 2)</small>
 
-            &rarr; Ficheros stub (anotaciones de bibliotecas de terceros, p. e.)<br />
-            &rarr; Casting<br />
-            &rarr; Sobrecarga
+              Talks
 
-               ```python
-               @overload
-               def overloaded_func(self, i: int) -> int: ...
+                - [Stanford Seminar 2018 - Optional Static Typing for Python by Guido van Rossum](https://www.youtube.com/watch?v=GiZKuyLKvAA)
+                - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://www.youtube.com/watch?v=mXfsMDM3LwQ)
+                - [PyCon 2017 - Static Types for Python by Jukka Lehtosalo, David Fisher](https://www.youtube.com/watch?v=7ZbwZgrXnwY)
+                - [PyCon 2015 - Type Hints by Guido van Rossum](https://www.youtube.com/watch?v=2wDvzy6Hgxg)
 
-               @overload
-               def overloaded_func(self, f: float, s: str) -> bytes: ...
-               ```
-            &rarr; Tipos para IO<br />
-            &rarr; Tipado por RegEx<br />
-            &rarr; Metaprogramacion<br />
-            &rarr; Protocols ([PEP 544](https://www.python.org/dev/peps/pep-0544/))<br />
-            &rarr; ...
+              PEPs
+
+                - [PEP 3107 - Function Annotation](https://www.python.org/dev/peps/pep-3107/)
+                - [PEP 482 - Literature overview for Type Hint](https://www.python.org/dev/peps/pep-0482/)
+                - [PEP 483 - Theory of Type Hint](https://www.python.org/dev/peps/pep-0483/)
+                - [PEP 484 - Type Hints](https://www.python.org/dev/peps/pep-0484/)
+                - [PEP 526 - Syntx for variable annotation](https://www.python.org/dev/peps/pep-0526/)
+                - [PEP 544 - Protocol](https://www.python.org/dev/peps/pep-0544/)
+                - [PEP 560 - Core Support for typing module and Generic Types](https://www.python.org/dev/peps/pep-0560/)
+                - [PEP 563 - Postponed Evaluation of Annotations](https://www.python.org/dev/peps/pep-0563/)
+
+              Slides
+
+                - [PyConES 2014 - Gradual Typing in Python by Alejandro Gomez](http://2014.es.pycon.org/static/talks/gradual-typing-in-python/index.html)
+                - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://docs.google.com/presentation/d/1_LKkvn7Xta2w2f-eX3mB4j_zHhH_0IV7yq9_O90boMU/edit#slide=id.p)
+                - [PyCon 2016 - MyPy by MyPy Team](http://mypy-lang.blogspot.com/2016/05/slides-for-mypy-talk-at-pycon.html)
+                - [The typing module in Python 3.5 - 2015](https://www.slideshare.net/ryan_blunden/python-typing-module?qid=069ca21c-ba4a-4672-a481-09fa4fda7d64&v=&b=&from_search=8)
             </textarea>
           </section>
-        </section>
+          <section data-markdown class="bibliography">
+            <textarea data-template>
+              ### Bibliografía <small>(2 de 2)</small>
 
-        <section data-markdown>
-          <textarea data-template>
-            ## Conclusiones
+              Links
 
-            - Las anotaciones mejoran enormemente el proceso de desarrollo y la calidad del código.
-              - Hacen que el código sea más legible.
-              - Ayudan a detectar errores antes del _runtime_.
-              - Reducen el número de tests y de asserts.
-            - Mejorar nuestros editores y otras herramientas de análisis de código.
-              - incluso puede llegar a mejorar la performance del código ¿en un futuro no muy lejano? (Cython, Pyston, MypyC...)
-            - Los `type hints` son poco invasibos y _pythonicos_
-            - [PEP 20](https://www.python.org/dev/peps/pep-0020/) _**"Explicito es mejor que implícito"**_
-          </textarea>
-        </section>
-        <section data-markdown class="section-cover orange">
-          <textarea data-template>
-            # Muchas gracias!!
-          </textarea>
-        </section>
-        <section data-markdown class="bibliography">
-          <textarea data-template>
-            ### Bibliografía <small>(1 de 2)</small>
-
-            Talks
-
-              - [Stanford Seminar 2018 - Optional Static Typing for Python by Guido van Rossum](https://www.youtube.com/watch?v=GiZKuyLKvAA)
-              - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://www.youtube.com/watch?v=mXfsMDM3LwQ)
-              - [PyCon 2017 - Static Types for Python by Jukka Lehtosalo, David Fisher](https://www.youtube.com/watch?v=7ZbwZgrXnwY)
-              - [PyCon 2015 - Type Hints by Guido van Rossum](https://www.youtube.com/watch?v=2wDvzy6Hgxg)
-
-            PEPs
-
-              - [PEP 3107 - Function Annotation](https://www.python.org/dev/peps/pep-3107/)
-              - [PEP 482 - Literature overview for Type Hint](https://www.python.org/dev/peps/pep-0482/)
-              - [PEP 483 - Theory of Type Hint](https://www.python.org/dev/peps/pep-0483/)
-              - [PEP 484 - Type Hints](https://www.python.org/dev/peps/pep-0484/)
-              - [PEP 526 - Syntx for variable annotation](https://www.python.org/dev/peps/pep-0526/)
-              - [PEP 544 - Protocol](https://www.python.org/dev/peps/pep-0544/)
-              - [PEP 560 - Core Support for typing module and Generic Types](https://www.python.org/dev/peps/pep-0560/)
-              - [PEP 563 - Postponed Evaluation of Annotations](https://www.python.org/dev/peps/pep-0563/)
-
-            Slides
-
-              - [PyConES 2014 - Gradual Typing in Python by Alejandro Gomez](http://2014.es.pycon.org/static/talks/gradual-typing-in-python/index.html)
-              - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://docs.google.com/presentation/d/1_LKkvn7Xta2w2f-eX3mB4j_zHhH_0IV7yq9_O90boMU/edit#slide=id.p)
-              - [PyCon 2016 - MyPy by MyPy Team](http://mypy-lang.blogspot.com/2016/05/slides-for-mypy-talk-at-pycon.html)
-              - [The typing module in Python 3.5 - 2015](https://www.slideshare.net/ryan_blunden/python-typing-module?qid=069ca21c-ba4a-4672-a481-09fa4fda7d64&v=&b=&from_search=8)
-          </textarea>
-        </section>
-        <section data-markdown class="bibliography">
-          <textarea data-template>
-            ### Bibliografía <small>(2 de 2)</small>
-
-            Links
-
-              - [Static v. dynamic languages](https://danluu.com/empirical-pl/)
-              - [I Finally Understand Static vs. Dynamic Typing and You Will Too!](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
-              - [Programming Concepts: Static vs. Dynamic Type Checking](https://thesocietea.org/2015/11/programming-concepts-static-vs-dynamic-type-checking/)
-              - [Static vs. dynamic typing of programming languages](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/)
-              - ["Gradual Typing for Functional Languages" (by Jeremy G. Siek y Walid Taha, 2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
-              - [24/03/2014 - What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
-              - [MyPy](http://www.mypy-lang.org/)
-              - [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html)
-              - 27/06/2018 - [Cool New Features in Python 3.7 - Typing Enhancements](https://realpython.com/python37-new-features/#typing-enhancements)
-              - 12/06/2018 - [A Python static typing update](https://lwn.net/Articles/757218/)
-              - 30/05/2018 - [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
-              - 13/10/2016 - [Static types in Python, oh my(py)!](https://blog.zulip.org/2016/10/13/static-types-in-python-oh-mypy/)
-              - 24/03/2014 - [What is Gradual Typeing?](http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
-              - [Cython - Python Compiler](https://cython.readthedocs.io)
-              - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
-              - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
-              - [Alore, Lang](http://www.alorelang.org/index.html)
-          </textarea>
+                - [Static v. dynamic languages](https://danluu.com/empirical-pl/)
+                - [I Finally Understand Static vs. Dynamic Typing and You Will Too!](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
+                - [Programming Concepts: Static vs. Dynamic Type Checking](https://thesocietea.org/2015/11/programming-concepts-static-vs-dynamic-type-checking/)
+                - [Static vs. dynamic typing of programming languages](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/)
+                - ["Gradual Typing for Functional Languages" (by Jeremy G. Siek y Walid Taha, 2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
+                - [24/03/2014 - What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
+                - [MyPy](http://www.mypy-lang.org/)
+                - [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html)
+                - 27/06/2018 - [Cool New Features in Python 3.7 - Typing Enhancements](https://realpython.com/python37-new-features/#typing-enhancements)
+                - 12/06/2018 - [A Python static typing update](https://lwn.net/Articles/757218/)
+                - 30/05/2018 - [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
+                - 13/10/2016 - [Static types in Python, oh my(py)!](https://blog.zulip.org/2016/10/13/static-types-in-python-oh-mypy/)
+                - 24/03/2014 - [What is Gradual Typeing?](http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
+                - [Cython - Python Compiler](https://cython.readthedocs.io)
+                - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
+                - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
+                - [Alore, Lang](http://www.alorelang.org/index.html)
+            </textarea>
+          </section>
         </section>
       </div>
     </div>
