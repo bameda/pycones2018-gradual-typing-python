@@ -69,11 +69,10 @@
         </section>
 
         <section data-background-color="#fff"
-                 data-background-image="img/slides/whoiam/david.jpg"
+                 data-background-image="img/slides/whoiam/david.png"
                  data-background-position="right"
-                 data-background-size="auto 100%"
-                 class="whoiam"
-                 style="left: -100px">
+                 data-background-size="auto 110%"
+                 class="whoiam">
           <h1>Hola!</h1>
           <br />
           <br />
@@ -111,14 +110,20 @@
         </section>
 
         <section>
+            <img src="img/slides/survery/twitter-survery.png" class="plain"
+                style="height: 100%" alt="Twitter survery" />
+        </section>
+
+        <section>
           <h3>Typing</h3>
           <p>Indicaer el tipo de las "cosas".</p>
           <br /><br />
           <h3>Type cheker</h3>
           <p>Programa encargado de comprobar y aplicar las restricciones de tipos en un código fuente dado.</p>
           <ul>
-            <li>- Puede actuar en la fase de compilado &rarr; _static type cheker_.</li>
-            <li>- Pude actuar en runtime &rarr; _dynamic type cheker_.</li>
+            <li>Puede actuar en la fase de compilado &rarr; <em>static type cheker</em>.</li>
+            <li>Pude actuar en runtime &rarr; <em>dynamic type cheker</em>.</li>
+            <li>type checker != linter </li>
           </ul>
         </section>
 
@@ -131,15 +136,16 @@
             <p>Las variables poseen un tipo asociado, normalmente explicito aunque a veces inplicito (inferido).</p>
             <p>La comprobación de tipos se realiza en tiempo de compilación para poder garantizarlo.</p>
             <br /><br />
-            <ul><li>- Ejemplos: Java, Haskell, Julia, Rust, C...</li></ul>
+            <ul><li>Ejemplos: Java, Haskell, Julia, Rust, C...</li></ul>
           </section>
           <section>
             <h4>👍</h4>
             <ul>
-              <li>Detección temprana de errores de tipo.</li>
+              <li>Incrementa la semántica de nuestro codigo.</li>
+              <li>El código está mejor documentado.</li>
               <li>Ahorro de comprobaciones manuales de tipo.</li>
               <li>Ahorro de tests.</li>
-              <li>El código está mejor documentado.</li>
+              <li>Detección temprana de errores de tipo.</li>
               <li>El compilador puede realizar optimizaciones de código.</li>
             </ul>
             <br /><br />
@@ -160,7 +166,7 @@
             <p>Las variables no poseen un tipo asociado, si no que lo obtienen del valor que contienen en cada momento.</p>
             <p>La comprobación de tipos se realiza en tiempo de ejecución.</p>
             <br /><br />
-            <ul><li>- Ejemplos: Python, Perl, Ruby, ¿Lisp?, Javascript...</li></ul>
+            <ul><li>Ejemplos: Python, Perl, Ruby, ¿Lisp?, Javascript...</li></ul>
           </section>
 
           <section>
@@ -179,7 +185,7 @@
               <li>Hay que documentar más.</li>
               <li>Hay que añadir comprobaciones manuales de tipos.</li>
               <li>Hay que testear más.</li>
-              <li>En proyectos grandes resulta dificil entender el código.</li>
+              <li>En proyectos grandes resulta dificil entender el código &rarr; falta de semántica</li>
             </ul>
           </section>
 
@@ -244,15 +250,15 @@ def validate_entries(entries):
               <li>Cualquier tipo es consistente con <code>Any</code> (cualquier tipo no es un subtipo de <code>Any</code>).</li>
             </ul>
             <pre><code class="python" data-trim data-noescape>
-class Employee: pass
-class Manager(Employee): pass
+class Employee: ...
+class Manager(Employee): ...
 
 worker = Employee()     # tipo: Employee
 worker = Manager()      # OK!: regla 1
 boss = Manager()        # tipo: Manager
 boss = Employee()       # Error
 
-something: Any = 1      # tipo: Any
+something: Any          # tipo: Any
 worker = something      # OK: regla 2
 something = boss        # OK: regla 3
             </code></pre>
@@ -291,6 +297,7 @@ something = boss        # OK: regla 3
                 <li>Post en Artima, <a href="https://www.artima.com/weblogs/viewpost.jsp?thread=85551">Adding Optional Static Typing to Python</a></li>
               </ul>
               <li><strong>2006:</strong> Function Annotation <a href="https://www.python.org/dev/peps/pep-3107/">PEP 3107</a> <em>(Python 3.0)</em></li>
+              <li><strong>2012:</strong> <a href="http://mypy-lang.org/">mypy</a> (por Jukka Lehtosalo): <em> el type cheker de refencia.</em></li>
               <li><strong>2014:</strong> Type Hints <a href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> <em>(Python 3.5)</em></li>
               <ul>
                 <li>Literature overview for Type Hint <a href="https://www.python.org/dev/peps/pep-0482/">PEP 482</a></li>
@@ -326,23 +333,41 @@ bytes       # 8-bit string
             </code></pre>
           </section>
           <section>
-            <h3>Variables</h3>
-            <p>El tipado de las variables puede ser implicito</p>
+            <h3>Variables (<a href="https://www.python.org/dev/peps/pep-0526/">PEP 526</a>)</h3>
+            <p>El tipado de las variables puede ser implicito o explicito</p>
             <pre><code class="python" data-trim data-noescape>
-num = 3.4
+a = 3.4             # implicit (float)
+b: float = 3.4      # explicit
+l: List[int] = []   # explicit
             </code></pre>
             <br />
-            <p>O explicito</p>
+            Y para las clases
             <pre><code class="python" data-trim data-noescape>
-num: float = 3.4
-l: List[int] = []
+from typing import ClassVar
+
+
+class MyClass:
+    an_string: str = 'Gazpachito'
+    a_number: int
+    a_bool: ClassVar[bool] = True
+
+    def __init__(self):
+        self.other_string: str = 'Espeto'
+
+
+s = MyClass()
+s.an_string = 1   # Error: Incompatible types in assignment (expression has type
+                  #        "int", variable has type "str")
+
+MyClass.a_bool = True
+s.a_bool = True  #  Cannot assign to class variable "some_bool" via instance
             </code></pre>
-            <br />
           </section>
           <section>
             <h3>Any</h3>
             <pre><code class="python" data-trim data-noescape>
 from typing import Any
+
 
 something: Any = 1
 something = 's'
@@ -354,14 +379,20 @@ something = None
             <h3>Funciones y métodos</h3>
 
             <pre><code class="python" data-trim data-noescape>
-def foo(a: 'x', b: 5 + 6, c: list = [],
-        *d: 'an arg', **e: 'a kwarg') -> max(2, 9):
-  pass
+from typing import Any, List
+
+
+def foo(a: int, b: float, c: List[bool] = [], *d: Any, **e: str) -> bool:
+    ...
+
 
 foo.__annotations__
-
-# Out: {'a': 'x', 'b': 11, 'c': list,
-#       'd': 'an arg', 'e': 'a kwarg', 'return': 9}
+# Out:  {'a': int,
+#       'b': float,
+#       'c': typing.List[bool],
+#       'd': typing.Any,
+#       'e': str,
+#       'return': bool}
             </code></pre>
           </section>
           <section>
@@ -375,13 +406,12 @@ foo.__annotations__
             <pre><code class="python" data-trim data-noescape>
 class Foo:
     def do_something(self):
-        pass
+        ...
+
 
 class Bar:
     def run(self, x: Foo):
-        x.od_something()
-        # ^ Error: "Foo" has no attribute "od_something";
-        #          maybe "do_something"?
+        x.od_something()  # Error: "Foo" has no attribute "od_something"; maybe "do_something"?
             </code></pre>
           </section>
           <section>
@@ -390,14 +420,14 @@ class Bar:
             <pre><code class="python" data-trim data-noescape>
 from typing import Union
 
+
 def mul(n: int, m: Union[str, int]):
     return n * m
 
+
 mul(5, 1)     # -> 5
 mul(5, '*')   # -> *****
-mul(5, 2.0)
-# ^ Error:  Argument 2 to "mul" has incompatible type "float";
-#           expected "Union[str, int]"
+mul(5, 2.0)   # Error:  Argument 2 to "mul" has incompatible type "float"; expected "Union[str, int]"
             </code></pre>
           </section>
           <section>
@@ -406,52 +436,58 @@ mul(5, 2.0)
             <pre><code class="python" data-trim data-noescape>
 from typing import Any, Optional, Union
 
+
 assert Union[str] == str
-assert Union[Union[int, str], float] == Union[int, str, float]
+assert Union[str, Any] == Any
 assert Union[str, str, int] == Union[str, int]
 assert Union[int, str] == Union[str, int]
+assert Union[Union[int, str], float] == Union[int, str, float]
 assert Union[str, int, None] == Optional[Union[str, int]]
             </code></pre>
           </section>
           <section>
-            <h3>Optional</h3>
+            <h3>Optional y NoReturn</h3>
             <p><code>Optional</code> sirve para indicar que ese valor puede ser <code>None</code>.</p>
             <pre><code class="python" data-trim data-noescape>
-from typing import Optional
+from typing import Optional, NoReturn
+
 
 z: Optional[str] = None
 z = 'text'
+
+
+def bar() -> NoReturn:
+    ...
             </code></pre>
           </section>
           <section>
             <h3>Collections <small>(1 de 4)</small></h3>
             <p>El módule <code>typing</code> contiene <em>generic types</em> de las colecciones más comunes.</p>
             <pre><code class="python" data-trim data-noescape>
-from typing import List, Dict, Set, Tuple, Deque
+from typing import List, Dict, Set, Tuple
 
-List[str]       # list of str objects
-Dict[str, int]  # dictionary from str to int
-Set[str]        # set of str objects
+
+List[str]             # list of str objects
+Dict[str, int]        # dictionary from str to int
+Set[str]              # set of str objects
 Tuple[int, int, int]  # a 3-tuple of ints
-Tuple[int, ...] # a variable length tuple of ints
+Tuple[int, ...]       # a variable length tuple of ints
             </code></pre>
           </section>
           <section>
             <h3>Collections <small>(2 de 4)</small></h3>
             <pre><code class="python" data-trim data-noescape>
-from typing import List, Set, NamedTuple
+from typing import List, Set, Union
+
 
 list_a: List[float]
 list_a = [1, 1.0, 2.0]
-list_a = ['a', 1.0, 2.0]
-# ^ Error: List item 0 has incompatible type "str"; expected "float"
+list_a = ['a', 1.0, 2.0]  # Error: List item 0 has incompatible type "str"; expected "float"
 
-list_b: List[Union[float, str]]
-list_b = [1, 1.0, 'a']
+list_b: List[Union[float, str]] = [1, 1.0, 'a']
 
 set_a: Set[int] = {1, 2, 3}
-set_a = {1, 2, 'a'}
-# ^ Error: Argument 3 to <set> has incompatible type "str"; expected "int"
+set_a = {1, 2, 'a'}       # Error: Argument 3 to &#60;set&#62; has incompatible type "str"; expected "int"
             </code></pre>
           </section>
           <section>
@@ -460,13 +496,14 @@ set_a = {1, 2, 'a'}
             <pre><code class="python" data-trim data-noescape>
 from typing import NamedTuple
 
+
 class Employee(NamedTuple):
     """Represents an employee."""
     name: str
     id: int = 3
 
     def __repr__(self) -> str:
-        return f'<Employee {self.name}, id={self.id}>'
+        return f'&#60;Employee {self.name}, id={self.id}&#62;'
             </code></pre>
           </section>
           <section>
@@ -475,13 +512,14 @@ class Employee(NamedTuple):
             <p>Tambien están las <em>abstract collections</em>, definidas en <code>collections.abc</code> (útiles para el <em>duck typing</em>).</p>
 
             <pre><code class="python" data-trim data-noescape>
-from typing import Mapping, MutableMapping, Sequence, MutableSequence,...
+from typing import Mapping, MutableMapping, Sequence, MutableSequence
 
-Mapping[str, str]        # a mapping from strings to strings
-MutableMapping[str, str] # a mutable mapping from strings to strings
 
-Sequence[int]            # a sequence of integers
-MutableSequence[int]     # a mutable sequence of integers
+Mapping[str, str]           # a mapping from strings to strings
+MutableMapping[str, str]    # a mutable mapping from strings to strings
+
+Sequence[int]               # a sequence of integers
+MutableSequence[int]        # a mutable sequence of integers
             </code></pre>
           </section>
           <section>
@@ -492,33 +530,39 @@ Callable[[int, int], str]
 Callable[..., str]
             </code></pre>
             <pre><code class="python" data-trim data-noescape>
+from typing import Callable
+
+
 def feeder(get_next_item: Callable[[], str]) -> None:
-    pass
+    ...
 
 
-def async_query(
-  on_success: Callable[[int], None],
-  on_error: Callable[[int, Exception], None]
-) -> None:
-    pass
+def async_query(on_success: Callable[[int], None],
+                on_error: Callable[[int, Exception], None]) -> None:
+    ...
             </code></pre>
           </section>
           <section>
             <h3>TypeVar</h3>
             <p>Sirven para declarar variables de tipo.</p>
             <pre><code class="python" data-trim data-noescape>
-T = TypeVar('T')       # can be anything
+from typing import TypeVar
+
+
+T = TypeVar('T')                        # can be anything
 AnyStr = TypeVar('AnyStr', str, bytes)  # can be str or bytes
+
 
 def concat(x: AnyStr, y: AnyStr) -> AnyStr:
     return x + y
+
 
 concat('aaa', 'bbb')
 concat(b'aaa', b'bbb')
 concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" cannot be "object"
             </code></pre>
 
-            <small>NOTA: No te enrolles contando lo de <code>bound</code>, ni lo de las propiedades <em><a href="https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29">covariancia, contravariancia e invariancia</a></em><br /> de los tipos complejos, que no te va a dar tiempo. Más info en <a href="https://www.python.org/dev/peps/pep-0484/#id26">PEP 484</a>.</small>
+            <small>NOTA: No te enrolles contando lo de <code>bound</code>, ni lo de las propiedades <em><a href="https://en.wikipedia.org/wiki/Covariance_and_contravariance_%28computer_science%29">covariancia, contravariancia e invariancia</a></em><br /> de los tipos complejos, que no te va a dar tiempo. Más info en <a href="https://www.python.org/dev/peps/pep-0484/#covariance-and-contravariance">PEP 484: Covariance and contravariance</a>.</small>
           </section>
           <section>
             <h3>Generic Clases</h3>
@@ -526,45 +570,43 @@ concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" can
             <pre><code class="python" data-trim data-noescape>
 from typing import Generic, List, TypeVar
 
-Z = TypeVar('Z')
 
-class Stack(Generic[Z]):
+T = TypeVar('T')  # Can be anything
+
+
+class Stack(Generic[T]):
     def __init__(self) -> None:
-        self.items: List[Z] = []
+        self.items: List[T] = []
 
-    def push(self, item: Z) -> None:
+    def push(self, item: T) -> None:
         self.items.append(item)
 
-    def pop(self) -> Z:
+    def pop(self) -> T:
         return self.items.pop()
 
     def empty(self) -> bool:
         return not self.items
 
+
 stacki = Stack[int]()
 stacki.push(1)
-stacki.push('n')
-# ^ Error:  Argument 1 to "push" of "Stack" has incompatible
-#           type "str"; expected "int"
+stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatible
+                        #         type "str"; expected "int"
             </code></pre>
           </section>
           <section>
             <h3>Y mucho, mucho más...</h3>
+            <br /><br />
             <ul>
-              <li>Ficheros stub (anotaciones de bibliotecas de terceros, p. e.)</li>
+              <li>Ficheros stub (.pyi)</li>
+              <li>Sobrecarga de funciones (<code>@overload</code>)
               <li>Casting</li>
-              <li>Sobrecarga
-                <pre style="margin-top: 0;"><code class="python" data-trim data-noescape>
-@overload
-def overloaded_func(self, i: int) -> int: ...
-
-@overload
-def overloaded_func(self, f: float, s: str) -> bytes: ...
-                </code></pre></li>
               <li>Tipos para IO</li>
               <li>Tipado por RegEx</li>
+              <li>Decorados</li>
+              <li>Corrutinas</li>
               <li>Metaprogramacion</li>
-              <li>Protocols (<a href="https://www.python.org/dev/peps/pep-0544/">PEP 544</a>)</li>
+              <li>Protocolos (<a href="https://www.python.org/dev/peps/pep-0544/">PEP 544</a>, para el <em>static duck typing</em>)</li>
               <li>...</li>
             </ul>
           </section>
@@ -572,8 +614,9 @@ def overloaded_func(self, f: float, s: str) -> bytes: ...
 
         <section>
           <h2>Conclusiones</h2>
+          <br /><br />
           <ul>
-            <li>Las anotaciones mejoran enormemente el proceso de desarrollo y la calidad del código.
+            <li>Las anotaciones mejoran enormemente el proceso de desarrollo y la calidad del código aportando muchísima semantica.
               <ul><li>Hacen que el código sea más legible.</li>
               <li>Ayudan a detectar errores antes del _runtime_.</li>
               <li>Reducen el número de tests y de asserts.</li></ul></li>
@@ -674,7 +717,7 @@ def overloaded_func(self, f: float, s: str) -> bytes: ...
         // Size
         // 16:9 FullHD
         width: 1920,
-        width: "90%",
+        width: "70%",
         height: 1080,
         // 16:9
         //width: 1280,
