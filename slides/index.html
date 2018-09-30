@@ -343,24 +343,22 @@ l: List[int] = []   # explicit
             <br />
             Y para las clases
             <pre><code class="python" data-trim data-noescape>
-from typing import ClassVar
-
-
 class MyClass:
-    an_string: str = 'Gazpachito'
-    a_number: int
-    a_bool: ClassVar[bool] = True
+    s: str = 'Gazpachito'
+    n: int
+    b: ClassVar[bool] = True
 
     def __init__(self):
-        self.other_string: str = 'Espeto'
+        self.o: str = 'Espeto'
 
 
 s = MyClass()
-s.an_string = 1   # Error: Incompatible types in assignment (expression has type
-                  #        "int", variable has type "str")
-
-MyClass.a_bool = True
-s.a_bool = True  #  Cannot assign to class variable "some_bool" via instance
+s.s = 1           # Error: Incompatible types in assignment (expression has type "int",
+                  #        variable has type "str")
+s.o = 2.0         # Error: Incompatible types in assignment (expression has type "float",
+                  #        variable has type "str")
+MyClass.b = True
+s.b = True        # Error: Cannot assign to class variable "b" via instance
             </code></pre>
           </section>
           <section>
@@ -446,7 +444,7 @@ assert Union[str, int, None] == Optional[Union[str, int]]
             </code></pre>
           </section>
           <section>
-            <h3>Optional y NoReturn</h3>
+            <h3>Optional</h3>
             <p><code>Optional</code> sirve para indicar que ese valor puede ser <code>None</code>.</p>
             <pre><code class="python" data-trim data-noescape>
 from typing import Optional, NoReturn
@@ -454,10 +452,6 @@ from typing import Optional, NoReturn
 
 z: Optional[str] = None
 z = 'text'
-
-
-def bar() -> NoReturn:
-    ...
             </code></pre>
           </section>
           <section>

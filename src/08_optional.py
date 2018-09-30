@@ -1,9 +1,5 @@
-from typing import Optional, NoReturn
+from typing import Optional
 
 
 z: Optional[str] = None
 z = 'text'
-
-
-def bar() -> NoReturn:
-    ...
