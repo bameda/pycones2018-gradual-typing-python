@@ -183,20 +183,23 @@ $selectionColor: $colorWhite;
 
 // --- section cover
 .reveal .section-cover {
-  background-color: $colorBlack;
 
-  &.orange {
-    background-color: $colorOrange400;
-  }
 
-  &.blue {
-    background-color: $colorBlue400;
-  }
+  // NOTE: Use <section class="section-cover" data-background-color="#DEBC3E">
+  // &.orange {
+  //   background-color: $colorOrange400;
+  // }
+
+  // NOTE: Use <section class="section-cover" data-background-color="#0fb9da">
+  // &.blue {
+  //   background-color: $colorBlue400;
+  // }
 
   h1, h2, h3, h4, h5 {
-    background-color: unset;
+    background-color: transparent;
     color: $colorWhite;
     font-weight: 800;
+    transition: none !important;
   }
 }
 

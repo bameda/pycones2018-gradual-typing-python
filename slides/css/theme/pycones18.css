@@ -348,16 +348,11 @@ body {
     background-color: unset;
     font-weight: 600; }
 
-.reveal .section-cover {
-  background-color: #000; }
-  .reveal .section-cover.orange {
-    background-color: #DEBC3E; }
-  .reveal .section-cover.blue {
-    background-color: #0fb9da; }
-  .reveal .section-cover h1, .reveal .section-cover h2, .reveal .section-cover h3, .reveal .section-cover h4, .reveal .section-cover h5 {
-    background-color: unset;
-    color: #fff;
-    font-weight: 800; }
+.reveal .section-cover h1, .reveal .section-cover h2, .reveal .section-cover h3, .reveal .section-cover h4, .reveal .section-cover h5 {
+  background-color: transparent;
+  color: #fff;
+  font-weight: 800;
+  transition: none !important; }
 
 .reveal .bibliography ul {
   font-size: .55em; }

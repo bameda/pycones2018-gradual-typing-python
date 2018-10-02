@@ -61,9 +61,9 @@
           <div class="cover">
             <img class="logo plain" src='img/cmmon/logo-pycones.svg' alt="" />
             <div class="content">
-              <h1>He venido a hablar de mis tipos...</h1>
+              <h1>Tipín en Pitón</h1>
               <br /><br />
-              <h3>Gradual Typing en Python</h3>
+              <h3>&#60; Gradual Typing en Python &#62;</h3>
             </div>
           </div>
         </section>
@@ -71,8 +71,9 @@
         <section data-background-color="#fff"
                  data-background-image="img/slides/whoiam/david.png"
                  data-background-position="right"
-                 data-background-size="auto 110%"
-                 class="whoiam">
+                 data-background-size="auto 120%"
+                 class="whoiam"
+                 style="left: 0px;">
           <h1>Hola!</h1>
           <br />
           <br />
@@ -148,7 +149,7 @@
               <li>Detección temprana de errores de tipo.</li>
               <li>El compilador puede realizar optimizaciones de código.</li>
             </ul>
-            <br /><br />
+            <br />
             <h4>👎</h4>
             <ul>
               <li>Incremento de tiempo en el proceso <em>editar-compilar-ejecutar-depurar</em>.</li>
@@ -178,7 +179,7 @@
               <li>Facilita la gestión de situaciones en la que el típo sólo se conoce en tiempo de ejecución.</li>
               <li>Ideal para programación interactiva.</li>
             </ul>
-            <br /><br />
+            <br />
             <h4> 👎</h4>
             <ul>
               <li>Hay errores de tipo que no se detectan hasta su ejecución.</li>
@@ -266,7 +267,7 @@ something = boss        # OK: regla 3
         </section>
 
         <section>
-          <section class="section-cover blue">
+          <section class="section-cover" data-background-color="#0fb9da">
             <h1>Gradual typing<br />en Python</h1>
           </section>
 
@@ -316,7 +317,7 @@ something = boss        # OK: regla 3
         </section>
 
         <section>
-          <section class="section-cover blue">
+          <section class="section-cover" data-background-color="#0fb9da">
             <h1>Type Hinting syntax<br />en Python</h1>
           </section>
           <section>
@@ -340,7 +341,6 @@ a = 3.4             # implicit (float)
 b: float = 3.4      # explicit
 l: List[int] = []   # explicit
             </code></pre>
-            <br />
             Y para las clases
             <pre><code class="python" data-trim data-noescape>
 class MyClass:
@@ -350,7 +350,6 @@ class MyClass:
 
     def __init__(self):
         self.o: str = 'Espeto'
-
 
 s = MyClass()
 s.s = 1           # Error: Incompatible types in assignment (expression has type "int",
@@ -425,7 +424,8 @@ def mul(n: int, m: Union[str, int]):
 
 mul(5, 1)     # -> 5
 mul(5, '*')   # -> *****
-mul(5, 2.0)   # Error:  Argument 2 to "mul" has incompatible type "float"; expected "Union[str, int]"
+mul(5, 2.0)   # Error:  Argument 2 to "mul" has incompatible type "float";
+              #         expected "Union[str, int]"
             </code></pre>
           </section>
           <section>
@@ -481,7 +481,8 @@ list_a = ['a', 1.0, 2.0]  # Error: List item 0 has incompatible type "str"; expe
 list_b: List[Union[float, str]] = [1, 1.0, 'a']
 
 set_a: Set[int] = {1, 2, 3}
-set_a = {1, 2, 'a'}       # Error: Argument 3 to &#60;set&#62; has incompatible type "str"; expected "int"
+set_a = {1, 2, 'a'}       # Error: Argument 3 to &#60;set&#62; has incompatible type "str";
+                          #        expected "int"
             </code></pre>
           </section>
           <section>
@@ -501,7 +502,7 @@ class Employee(NamedTuple):
             </code></pre>
           </section>
           <section>
-            <h3>### Collections <small>(4 de 4)</small></h3>
+            <h3>Collections <small>(4 de 4)</small></h3>
 
             <p>Tambien están las <em>abstract collections</em>, definidas en <code>collections.abc</code> (útiles para el <em>duck typing</em>).</p>
 
@@ -543,7 +544,6 @@ def async_query(on_success: Callable[[int], None],
 from typing import TypeVar
 
 
-T = TypeVar('T')                        # can be anything
 AnyStr = TypeVar('AnyStr', str, bytes)  # can be str or bytes
 
 
@@ -564,9 +564,7 @@ concat('aaa', b'bbb')   # Error: Value of type variable "AnyStr" of "concat" can
             <pre><code class="python" data-trim data-noescape>
 from typing import Generic, List, TypeVar
 
-
 T = TypeVar('T')  # Can be anything
-
 
 class Stack(Generic[T]):
     def __init__(self) -> None:
@@ -580,7 +578,6 @@ class Stack(Generic[T]):
 
     def empty(self) -> bool:
         return not self.items
-
 
 stacki = Stack[int]()
 stacki.push(1)
@@ -621,7 +618,7 @@ stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatib
           </ul>
           </textarea>
         </section>
-        <section class="section-cover orange">
+        <section class="section-cover" data-background-color="#DEBC3E">
           <h1>Muchas gracias!!</h1>
         </section>
         <section>
@@ -711,7 +708,7 @@ stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatib
         // Size
         // 16:9 FullHD
         width: 1920,
-        width: "70%",
+        width: "90%",
         height: 1080,
         // 16:9
         //width: 1280,
