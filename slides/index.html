@@ -402,13 +402,13 @@ foo.__annotations__
             </ul>
             <pre><code class="python" data-trim data-noescape>
 class Foo:
-    def do_something(self):
+    def do_something(self, i: int):
         ...
 
 
 class Bar:
     def run(self, x: Foo):
-        x.od_something()  # Error: "Foo" has no attribute "od_something"; maybe "do_something"?
+        x.od_something(1)  # Error: "Foo" has no attribute "od_something"; maybe "do_something"?
             </code></pre>
           </section>
           <section>
@@ -447,7 +447,7 @@ assert Union[str, int, None] == Optional[Union[str, int]]
             <h3>Optional</h3>
             <p><code>Optional</code> sirve para indicar que ese valor puede ser <code>None</code>.</p>
             <pre><code class="python" data-trim data-noescape>
-from typing import Optional, NoReturn
+from typing import Optional
 
 
 z: Optional[str] = None
@@ -629,6 +629,7 @@ stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatib
               Talks
 
                 - [Stanford Seminar 2018 - Optional Static Typing for Python by Guido van Rossum](https://www.youtube.com/watch?v=GiZKuyLKvAA)
+                - [EuroPython 2018 - Getting Started with Mypy and Type Checking by Jukka Lehtosalo](https://www.youtube.com/watch?v=18nZ5xMeGno)
                 - [PyCon Australia 2017 - Gradual Typing in Python by Tom Manderson](https://www.youtube.com/watch?v=mXfsMDM3LwQ)
                 - [PyCon 2017 - Static Types for Python by Jukka Lehtosalo, David Fisher](https://www.youtube.com/watch?v=7ZbwZgrXnwY)
                 - [PyCon 2015 - Type Hints by Guido van Rossum](https://www.youtube.com/watch?v=2wDvzy6Hgxg)
@@ -663,18 +664,25 @@ stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatib
                 - [Programming Concepts: Static vs. Dynamic Type Checking](https://thesocietea.org/2015/11/programming-concepts-static-vs-dynamic-type-checking/)
                 - [Static vs. dynamic typing of programming languages](https://pythonconquerstheuniverse.wordpress.com/2009/10/03/static-vs-dynamic-typing-of-programming-languages/)
                 - ["Gradual Typing for Functional Languages" (by Jeremy G. Siek y Walid Taha, 2006)](http://scheme2006.cs.uchicago.edu/13-siek.pdf)
-                - [24/03/2014 - What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
-                - [MyPy](http://www.mypy-lang.org/)
                 - [Type hints cheat sheet (Python 3)](https://mypy.readthedocs.io/en/latest/cheat_sheet_py3.html)
                 - 27/06/2018 - [Cool New Features in Python 3.7 - Typing Enhancements](https://realpython.com/python37-new-features/#typing-enhancements)
                 - 12/06/2018 - [A Python static typing update](https://lwn.net/Articles/757218/)
                 - 30/05/2018 - [The state of type hints in Python](https://www.bernat.tech/the-state-of-type-hints-in-python/)
                 - 13/10/2016 - [Static types in Python, oh my(py)!](https://blog.zulip.org/2016/10/13/static-types-in-python-oh-mypy/)
-                - 24/03/2014 - [What is Gradual Typeing?](http://wphomes.soic.indiana.edu/jsiek/what-is-gradual-typing/)
+                - 24/03/2014 - [What is Gradual Typing (by Jeremy Siek)](http://homes.sice.indiana.edu/jsiek/what-is-gradual-typing/)
+                - 23/12/2014 - [Adding Optional Static Typing to Python (by Guido van Rossum)](https://www.artima.com/weblogs/viewpost.jsp?thread=85551)
+
+              Tools & libs
+
+                - [typeshed - Stubs for standard python lib](https://github.com/python/typeshed)
+                - [MyPy - Type Checker](http://www.mypy-lang.org/)
+                - [PyType - Type Cheker](https://github.com/google/pytype)
+                - [Pyre - Type Checker](https://pyre-check.org/)
+                - [MonkeyType - Type Generator](https://github.com/Instagram/MonkeyType)
                 - [Cython - Python Compiler](https://cython.readthedocs.io)
                 - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
                 - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
-                - [Alore, Lang](http://www.alorelang.org/index.html)
+                - [Alore - Language ()](http://www.alorelang.org/index.html)
             </textarea>
           </section>
         </section>
