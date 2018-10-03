@@ -276,9 +276,11 @@ something = boss        # OK: regla 3
             <br /><br />
             <h3>✔</h3>
             <ul>
-              <li>Mejorar la legibilidad del código a los humanos.</li>
+              <li>Mejorar la lectura (y comprensión) del código para las personas.</li>
+              <li>Debe ser opcional.</li>
+              <li>No puede interferir en el proceso de ejecución.</li>
               <li>Sintaxis estandar para la anotación de tipos.</li>
-              <li>Facilitar el análisis estático y la refactorización del código python.</li>
+              <li>Facilitar el análisis estático del código (detección temprana de bugs) y la refactorización.</li>
             </ul>
             <br /><br />
             <h3>✖</h3>
@@ -339,10 +341,11 @@ bytes       # 8-bit string
             <pre><code class="python" data-trim data-noescape>
 a = 3.4             # implicit (float)
 b: float = 3.4      # explicit
-l: List[int] = []   # explicit
             </code></pre>
             Y para las clases
             <pre><code class="python" data-trim data-noescape>
+from typing import ClassVar
+
 class MyClass:
     s: str = 'Gazpachito'
     n: int
@@ -373,7 +376,7 @@ something = None
             </code></pre>
           </section>
           <section>
-            <h3>Funciones y métodos</h3>
+            <h3>Funciones y métodos (<a href="https://www.python.org/dev/peps/pep-3107/">PEP 3107</a>)</h3>
 
             <pre><code class="python" data-trim data-noescape>
 from typing import Any, List
@@ -395,7 +398,7 @@ foo.__annotations__
           <section>
             <h3>Clases</h3>
             <ul>
-              <li>Las clases de Python son tipos (las instancias de sus subclases son consistentes)</li>
+              <li>Las clases de Python son tipos (y sus subclases son consistentes)</li>
               <li>En python 3.7 se arregla el problema con las <em>forward references</em> (<a href="https://www.python.org/dev/peps/pep-0563/">PEP 563</a>)</li>
               <li>Ahora encontraras <em>type errors</em> si accedes a métodos que no existen.
                   <br />&rarr;  No más errores en <em>runtime</em> por <em>typos</em>!!</li>
@@ -740,9 +743,10 @@ stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatib
 
         // Pdf settings
         pdfMaxPagesPerSlide: 1,
+        pdfSeparateFragments: false,
 
         // Plugin: elapsed-time-bar
-        allottedTime: 35 * 60 * 1000, // 35 minutes
+        allottedTime: 20 * 60 * 1000, // 35 minutes
         progressBarHeight: 5,
         barColor: '#DEBC3E',
         pausedBarColor: '#888',
