@@ -152,7 +152,7 @@
             <br />
             <h4>👎</h4>
             <ul>
-              <li>Incremento de tiempo en el proceso <em>editar-compilar-ejecutar-depurar</em>.</li>
+              <li>Incremento de tiempo en el proceso de desarrollo (<em>editar-compilar-ejecutar-depurar</em>).</li>
               <li>No realizan todas las verificaciones de tipos (downcasting).</li>
             </ul>
           </section>
@@ -173,8 +173,7 @@
           <section>
             <h4>👍</h4>
             <ul>
-              <li>Facilita el proceso de codificación.</li>
-              <li>Menor tiempo en el proceso editar-compilar-ejecutar-depurar.</li>
+              <li>Mayor velocidad en el proceso de codificación.</li>
               <li>Flexibilidad para adaptarse a los cambios de requisitos.</li>
               <li>Facilita la gestión de situaciones en la que el típo sólo se conoce en tiempo de ejecución.</li>
               <li>Ideal para programación interactiva.</li>
@@ -188,25 +187,11 @@
               <li>Hay que testear más.</li>
               <li>En proyectos grandes resulta dificil entender el código &rarr; falta de semántica</li>
             </ul>
-          </section>
-
-          <section>
-            <h4> ¿Qué hace este código?</h4>
             <pre><code class="python" data-trim data-noescape>
 def validate_entries(entries):
     for entry in entries:
         entry.data.validate()
             </code></pre>
-            <br />
-            <ul class="fragment"><li>`grep validate` y a buscar su definición &rarr; 154 definiciones</li>
-              <ul class="fragment"><li>debemos averiguar el típo del objeto de `validate()`</li>
-                <ul class="fragment"><li>debemos averiguar el tipo de `entry.data`</li>
-                  <ul class="fragment"><li>para ello debemos saber qué es `entry`</li>
-                    <ul class="fragment"><li>pero ¿qué es `entries`? ¿sera un...</li>
-                      <ul class="fragment"><li>..._parámetro_? &rarr; busca la llamada y...</li>
-                      <li>..._valor de retorno de una función_? &rarr; busca la definicion de la función y...</li>
-                      <li>..._un atributo de clase_? &rarr; busca la definición de la clase y...</li>
-            </ul></ul></ul></ul></ul></ul>
           </section>
         </section>
 
@@ -685,7 +670,7 @@ stacki.push('n')        # Error:  Argument 1 to "push" of "Stack" has incompatib
                 - [Cython - Python Compiler](https://cython.readthedocs.io)
                 - [MypyC - Python Compiler](https://github.com/JukkaL/mypyc)
                 - [Pyston - Python Compiler](https://github.com/dropbox/pyston)
-                - [Alore - Language ()](http://www.alorelang.org/index.html)
+                - [Alore - Language](http://www.alorelang.org/index.html)
             </textarea>
           </section>
         </section>
